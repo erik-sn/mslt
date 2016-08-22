@@ -49,9 +49,10 @@ export default class Application extends Component {
   }
 
   showEntry(title) {
-    axios.get(`${API_URL}/entry/${title}/`)
-    .then(response => this.setState({ activeEntry: response.data }))
-    .catch(() => this.setState({ error: 'There was an error retrieving the entry from the database' }));
+    const activeEntry = this.state.entries.find(entry => entry.title === title);
+    if (activeEntry) {
+      this.setState({ activeEntry });
+    }
   }
 
   render() {
