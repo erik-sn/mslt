@@ -43,11 +43,12 @@
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
+    "axios": "^0.13.1",
     "compression": "^1.6.2",
     "es6-promise": "~3.2.1",
     "express": "^4.13.4",
     "morgan": "^1.7.0",
-    "react": "^0.14.8",
-    "react-dom": "^0.14.8"
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1"
   }
 }
