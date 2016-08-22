@@ -1,0 +1,20 @@
+#admin-container {
+  display: flex;
+}
+
+#input-container {
+  margin: 25px;
+  flex: 1 1 auto;
+}
+
+#input-text {
+  height: 80vh;
+  width: 100%;
+  resize: none;
+  border: none;
+}
+
+#output-container {
+  padding: 25px;
+  flex: 1 1 auto;
+}
