@@ -8,18 +8,27 @@ import marked from 'marked';
 
 import { API_URL } from './application';
 
-export default class Navbar extends Component {
+export default class Admin extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      input: '',
+      form: {
+        title: (JSON.parse(localStorage.getItem('mslt-title')) || ''),
+        description: (JSON.parse(localStorage.getItem('mslt-description')) || ''),
+        content: (JSON.parse(localStorage.getItem('mslt-content')) || ''),
+        tags: (JSON.parse(localStorage.getItem('mslt-tags')) || []),
+      },
       output: '',
     };
   }
 
-  postEntry(title, description, content, tags) {
-    axios.post(`${API_URL}/entry/`, { title, description, content, tags })
+  postEntry() {
+    const form = this.state.form;
+    console.log(form);
+    form.tags = form.tags.split(',').map(tag => tag.trim());
+    console.log(form);
+    axios.post(`${API_URL}/entry/`, form)
     .then(() => this.setState({ status: 'Successfully posted entry to database' }))
     .catch(() => this.setState({ error: 'There was an error posting entry to the database' }));
   }
@@ -36,15 +45,28 @@ export default class Navbar extends Component {
     .catch(() => this.setState({ error: 'There was an error deleting the entry from the database' }));
   }
 
+  updateField(e, name) {
+    localStorage.setItem(`mslt-${name}`, JSON.stringify(e.target.value));
+    const form = this.state.form;
+    form[name] = e.target.value;
+    this.setState({ form });
+  }
+
   render() {
-    const { input } = this.state;
+    const { title, description, content, tags } = this.state.form;
     return (
       <div id="admin-container" >
         <div id="input-container">
-          <textarea id="input-text" value={input} onChange={(e) => this.setState({ input: e.target.value })} />
+          <div><input value={title} onChange={e => this.updateField(e, 'title')} placeholder="Enter title here..." className="admin-input" type="text" /></div>
+          <div><input value={description} onChange={e => this.updateField(e, 'description')} placeholder="Enter description here..." className="admin-input" type="text" /></div>
+          <textarea id="input-content" value={content} onChange={e => this.updateField(e, 'content')} />
+          <div id="tag-container"><input className="admin-input" value={tags} onChange={e => this.updateField(e, 'tags')} /></div>
+          <div id="button-container">
+            <button onClick={() => this.postEntry()}>Submit</button>
+          </div>
         </div>
-        <div id="output-container">
-          <div dangerouslySetInnerHTML={{ __html: marked(input) }} />
+        <div id="preview-container">
+          <div dangerouslySetInnerHTML={{ __html: marked(content) }} />
         </div>
       </div>
     );

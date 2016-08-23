@@ -4,6 +4,7 @@ if (process.env.BROWSER) {
 
 import React, { Component } from 'react';
 import axios from 'axios';
+import marked from 'marked';
 
 import { API_URL } from './application';
 
@@ -43,22 +44,32 @@ export default class Main extends Component {
   }
 
   render() {
-    const { entries, activeEntry } = this.state;    
+    const { entries, tags, activeEntry, error } = this.state;
     const entryItems = entries.map((entry, index) => (
       <div key={index} className="entry-item" onClick={() => this.showEntry(entry.title)}>
         <h4 className="entry-item-title">{entry.title}</h4>
         <div className="entry-item-description">{entry.description}</div>
-        <div className="entry-item-content">{entry.content}</div>
+        <div className="entry-item-tag-container">
+          {entry.tags.map((id, i) => (
+            <div key={i} className="entry-item-tag">{tags.find(tag => tag.id === id).name}</div>)
+          )}
+        </div>
       </div>
     ));
 
     return (
-      <div id="main-container">
+      <div id="main-container">      
         <div id="entry-container">
           {entryItems}
         </div>
         <div id="active-entry-container">
-          {activeEntry.title}
+          {!activeEntry.content ? '' : 
+            <div>
+              <h2>{activeEntry.title}</h2>
+              <h4>{activeEntry.description}</h4>
+              <div id="content-container" dangerouslySetInnerHTML={{ __html: marked(activeEntry.content) }} />
+            </div>
+          }
         </div>
       </div>
     );

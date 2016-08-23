@@ -7,14 +7,21 @@
   flex: 1 1 auto;
 }
 
-#input-text {
+.admin-input {
+  padding: 5px;
+  height: 20px;
+  width: 80%;
+  margin-bottom: 5px;
+}
+
+#input-content {
   height: 80vh;
   width: 100%;
-  resize: none;
   border: none;
 }
 
-#output-container {
+#preview-container {
   padding: 25px;
+  max-width: 50%;
   flex: 1 1 auto;
 }

@@ -3,7 +3,6 @@ if (process.env.BROWSER) {
 }
 
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import Navbar from './navbar';
 import Admin from './admin';
@@ -16,7 +15,7 @@ export default class Application extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showAdmin: true,
+      showAdmin: false,
     };
   }
 

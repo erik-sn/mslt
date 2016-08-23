@@ -13,21 +13,32 @@ body {
 }
 
 #active-entry-container {
-  flex: 12 1 auto;
+  flex: 8 1 400px;
   padding: 25px;
   margin-left: 5px;
-  background-color: blue;
 }
 
 #entry-container {  
-  flex: 1 1 auto;
-  background-color: red;
+  flex: 1 1 150px;
 }
 
 .entry-item {
-  padding: 25px;
+  padding: 15px;
   margin: 5px;
   border: 2px solid black;
   cursor: pointer;
 }
 
+.entry-item-tag-container {
+  display: flex;
+  margin-top: 10px;
+}
+
+.entry-item-tag {
+  flex: 1 1 auto;
+  margin: 1px;
+  text-align: center;
+  font-size: 12px;
+  background-color: white;
+  border-radius: 3px;
+}
