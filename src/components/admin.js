@@ -25,9 +25,7 @@ export default class Admin extends Component {
 
   postEntry() {
     const form = this.state.form;
-    console.log(form);
     form.tags = form.tags.split(',').map(tag => tag.trim());
-    console.log(form);
     axios.post(`${API_URL}/entry/`, form)
     .then(() => this.setState({ status: 'Successfully posted entry to database' }))
     .catch(() => this.setState({ error: 'There was an error posting entry to the database' }));
@@ -52,7 +50,19 @@ export default class Admin extends Component {
     this.setState({ form });
   }
 
+  clearForm() {
+    const form = {
+      title: '',
+      description: '',
+      content: '',
+      tags: '',
+    };
+    this.setState({ form });
+    this.props.resetActive();
+  }
+
   render() {
+    const { activeEntry } = this.props;
     const { title, description, content, tags } = this.state.form;
     return (
       <div id="admin-container" >
@@ -60,9 +70,12 @@ export default class Admin extends Component {
           <div><input value={title} onChange={e => this.updateField(e, 'title')} placeholder="Enter title here..." className="admin-input" type="text" /></div>
           <div><input value={description} onChange={e => this.updateField(e, 'description')} placeholder="Enter description here..." className="admin-input" type="text" /></div>
           <textarea id="input-content" value={content} onChange={e => this.updateField(e, 'content')} />
+          <div>Tags:</div>
           <div id="tag-container"><input className="admin-input" value={tags} onChange={e => this.updateField(e, 'tags')} /></div>
           <div id="button-container">
-            <button onClick={() => this.postEntry()}>Submit</button>
+            {activeEntry.id ? <button onClick={() => this.postEntry()}>Update</button>
+                            : <button onClick={() => this.postEntry()}>Submit</button>}
+            <button onClick={() => this.clearForm()}>Cancel</button>
           </div>
         </div>
         <div id="preview-container">

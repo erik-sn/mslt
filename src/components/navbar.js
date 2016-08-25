@@ -15,7 +15,7 @@ export default class Navbar extends Component {
   render() {
     return (
       <div id="navbar-container" >
-      
+        <button onClick={() => this.props.toggleAdmin()}>Admin</button>
       </div>
     );
   }
