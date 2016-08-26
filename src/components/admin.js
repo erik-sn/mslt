@@ -13,7 +13,8 @@ export default class Admin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      form: {
+      activeEntry: {
+        id: -1,
         title: (JSON.parse(localStorage.getItem('mslt-title')) || ''),
         description: (JSON.parse(localStorage.getItem('mslt-description')) || ''),
         content: (JSON.parse(localStorage.getItem('mslt-content')) || ''),
@@ -21,18 +22,27 @@ export default class Admin extends Component {
       },
       output: '',
     };
+  }  
+
+  componentWillReceiveProps(nextProps) {
+    const { activeEntry } = nextProps;
+    this.setState({ activeEntry });
   }
+  
 
   postEntry() {
-    const form = this.state.form;
+    const form = this.state.activeEntry;
     form.tags = form.tags.split(',').map(tag => tag.trim());
     axios.post(`${API_URL}/entry/`, form)
     .then(() => this.setState({ status: 'Successfully posted entry to database' }))
     .catch(() => this.setState({ error: 'There was an error posting entry to the database' }));
   }
 
-  editEntry(id, title, description, content, tags) {
-    axios.put(`${API_URL}/entry/`, { id, title, description, content, tags })
+  updateEntry() {
+    const form = this.state.activeEntry;
+    console.log(form);
+    form.tags = form.tags.split(',').map(tag => tag.trim());
+    axios.put(`${API_URL}/entry/`, form)
     .then(() => this.setState({ status: 'Successfully edited entry to database' }))
     .catch(() => this.setState({ error: 'There was an error posting entry to the database' }));
   }
@@ -45,25 +55,26 @@ export default class Admin extends Component {
 
   updateField(e, name) {
     localStorage.setItem(`mslt-${name}`, JSON.stringify(e.target.value));
-    const form = this.state.form;
-    form[name] = e.target.value;
-    this.setState({ form });
+    const activeEntry = this.state.activeEntry;
+    activeEntry[name] = e.target.value;
+    this.setState({ activeEntry });
   }
 
   clearForm() {
-    const form = {
+    const activeEntry = {
+      id: -1,
       title: '',
       description: '',
       content: '',
       tags: '',
     };
-    this.setState({ form });
+    this.setState({ activeEntry });
     this.props.resetActive();
   }
 
   render() {
     const { activeEntry } = this.props;
-    const { title, description, content, tags } = this.state.form;
+    const { title, description, content, tags } = this.state.activeEntry;
     return (
       <div id="admin-container" >
         <div id="input-container">
@@ -73,7 +84,7 @@ export default class Admin extends Component {
           <div>Tags:</div>
           <div id="tag-container"><input className="admin-input" value={tags} onChange={e => this.updateField(e, 'tags')} /></div>
           <div id="button-container">
-            {activeEntry.id ? <button onClick={() => this.postEntry()}>Update</button>
+            {activeEntry.id ? <button onClick={() => this.updateEntry()}>Update</button>
                             : <button onClick={() => this.postEntry()}>Submit</button>}
             <button onClick={() => this.clearForm()}>Cancel</button>
           </div>

@@ -9,7 +9,7 @@ import Navbar from './navbar';
 import Admin from './admin';
 import Main from './main';
 
-export const API_URL = 'https://kiresuah.me/api';
+export const API_URL = 'http://localhost:8000/api';
 
 export default class Application extends Component {
 
