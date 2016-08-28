@@ -15,6 +15,7 @@ export default class Admin extends Component {
     this.state = {
       activeEntry: {
         id: -1,
+        token: '',
         title: (JSON.parse(localStorage.getItem('mslt-title')) || ''),
         description: (JSON.parse(localStorage.getItem('mslt-description')) || ''),
         content: (JSON.parse(localStorage.getItem('mslt-content')) || ''),
@@ -22,33 +23,32 @@ export default class Admin extends Component {
       },
       output: '',
     };
-  }  
+  }
 
   componentWillReceiveProps(nextProps) {
-    const { activeEntry } = nextProps;
-    this.setState({ activeEntry });
+    const { activeEntry, auth } = nextProps;
+    const token = auth && auth.access_token ? `?access_token=${auth.access_token}` : '';
+    this.setState({ activeEntry, token });
   }
-  
 
   postEntry() {
     const form = this.state.activeEntry;
     form.tags = form.tags.split(',').map(tag => tag.trim());
-    axios.post(`${API_URL}/entry/`, form)
+    axios.post(`${API_URL}/entry/${this.state.token}`, form)
     .then(() => this.setState({ status: 'Successfully posted entry to database' }))
     .catch(() => this.setState({ error: 'There was an error posting entry to the database' }));
   }
 
   updateEntry() {
     const form = this.state.activeEntry;
-    console.log(form);
     form.tags = form.tags.split(',').map(tag => tag.trim());
-    axios.put(`${API_URL}/entry/`, form)
+    axios.put(`${API_URL}/entry/${this.state.token}`, form)
     .then(() => this.setState({ status: 'Successfully edited entry to database' }))
     .catch(() => this.setState({ error: 'There was an error posting entry to the database' }));
   }
 
   deleteEntry(id) {
-    axios.delete(`${API_URL}/entry/`, { id })
+    axios.delete(`${API_URL}/entry/${this.state.token}`, { id })
     .then(() => this.setState({ status: 'Successfully deleted entry from the database' }))
     .catch(() => this.setState({ error: 'There was an error deleting the entry from the database' }));
   }

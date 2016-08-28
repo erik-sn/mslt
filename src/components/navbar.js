@@ -16,19 +16,20 @@ export default class Navbar extends Component {
    * Redirect the user to github to begin authentication procedure
    */
   login() {
-    const clientId = 'c77de98b2bc44fe09b80';
-    window.open(`https://github.com/login/oauth/authorize?redirect_uri=http://localhost:3000/&client_id=${clientId}`, '_self');
+    const clientId = '72cf5f6567a4f2de102c';
+    window.open(`https://github.com/login/oauth/authorize?redirect_uri=http://localhost:3000&client_id=${clientId}`, '_self');
   }
 
   render() {
-    const { logout, isAdmin, toggleAdmin, user } = this.props;
+    const { logout, toggleAdmin, auth } = this.props;
     return (
       <div id="navbar-container" >
-        {isAdmin ? <button onClick={() => toggleAdmin()}>Admin</button> : ''}
-        {user ?
+        {auth && auth.isAdmin ? <button onClick={() => toggleAdmin()}>Admin</button> : ''}
+        {auth ?
           <button onClick={() => logout()}>Logout</button> :
           <button onClick={() => this.login()}>Login</button>
         }
+        <div>{auth && auth.username ? auth.username : ''}</div>
       </div>
     );
   }
