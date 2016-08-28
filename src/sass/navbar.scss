@@ -1,7 +1,7 @@
 @import 'style';
 
 #navbar-container {
-  @include shadow($primary);
+  @include shadow($color: $primary);
   background-color: $primary;
   color: $secondary;
   height: 40px;
@@ -17,7 +17,8 @@
 #navbar-button-container button {
   height: 40px;
   margin-right: 5px;
-  width: 150px;
+  width: 190px;
+  font-size: 18px;
   color: $secondary;
   background-color: $primary;
   cursor: pointer;

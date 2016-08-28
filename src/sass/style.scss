@@ -2,8 +2,8 @@ $primary: #333;
 $secondary: whitesmoke;
 $tertiary: red;
 
-@mixin shadow($color) {
-  -webkit-box-shadow: 3px 1px 5px 6px $color;
-  -moz-box-shadow:    3px 1px 5px 6px $color;
-  box-shadow:         3px 1px 5px 6px $color;
+@mixin shadow($h: 0px, $v: 0px, $b: 3px, $s: 3px, $color: black) {
+  -webkit-box-shadow: $h $v $b $s $color;
+  -moz-box-shadow:    $h $v $b $s $color;
+  box-shadow:         $h $v $b $s $color;
 }

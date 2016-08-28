@@ -1,3 +1,5 @@
+@import 'style';
+
 body {
   margin: 0px;
 }
@@ -10,17 +12,28 @@ body {
   flex: 8 1 400px;
   padding: 25px;
   margin-left: 5px;
+  height: 85vh;
+  overflow-y: auto;
 }
 
-#entry-container {  
+#entry-container { 
   flex: 1 1 150px;
+  color: $primary;
 }
 
 .entry-item {
+  @include shadow($b: 3px, $s: 1px, $color: $primary); 
   padding: 15px;
   margin: 5px;
-  border: 2px solid black;
+  border: 1px solid $primary;
   cursor: pointer;
+  transition: 0.35s ease-out;
+}
+
+.entry-item:hover {
+  background-color: $primary;
+  color: $secondary;
+  transition: 0.15s ease-in;
 }
 
 .entry-item-tag-container {
@@ -33,6 +46,11 @@ body {
   margin: 1px;
   text-align: center;
   font-size: 12px;
-  background-color: white;
   border-radius: 3px;
+}
+
+.entry-item-tag:hover {
+  background-color: $secondary;
+  color: $primary;
+  transition: 0.15s ease-in;
 }

@@ -16,16 +16,14 @@ export default class Main extends Component {
   render() {
     const { activeEntry } = this.props;
     return (
-      <div id="main-container">
-        <div id="active-entry-container">
-          {!activeEntry || !activeEntry.content ? '' :
-            <div>
-              <h2 className="entry-title">{activeEntry.title}</h2>
-              <h4 className="entry-description">{activeEntry.description}</h4>
-              <div id="content-container" dangerouslySetInnerHTML={{ __html: marked(activeEntry.content) }} />
-            </div>
-          }
-        </div>
+      <div>
+        {!activeEntry || !activeEntry.content ? '' :
+          <div>
+            <h2 className="entry-title">{activeEntry.title}</h2>
+            <h4 className="entry-description">{activeEntry.description}</h4>
+            <div id="content-container" dangerouslySetInnerHTML={{ __html: marked(activeEntry.content) }} />
+          </div>
+        }
       </div>
     );
   }
