@@ -1,0 +1,38 @@
+body {
+  margin: 0px;
+}
+
+#main-container {
+  display: flex;
+}
+
+#active-entry-container {
+  flex: 8 1 400px;
+  padding: 25px;
+  margin-left: 5px;
+}
+
+#entry-container {  
+  flex: 1 1 150px;
+}
+
+.entry-item {
+  padding: 15px;
+  margin: 5px;
+  border: 2px solid black;
+  cursor: pointer;
+}
+
+.entry-item-tag-container {
+  display: flex;
+  margin-top: 10px;
+}
+
+.entry-item-tag {
+  flex: 1 1 auto;
+  margin: 1px;
+  text-align: center;
+  font-size: 12px;
+  background-color: white;
+  border-radius: 3px;
+}

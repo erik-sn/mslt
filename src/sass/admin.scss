@@ -24,4 +24,7 @@
   padding: 25px;
   max-width: 50%;
   flex: 1 1 auto;
+  height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

@@ -1,0 +1,41 @@
+@import 'style';
+
+#navbar-container {
+  @include shadow($primary);
+  background-color: $primary;
+  color: $secondary;
+  height: 40px;
+  padding: 10px;
+  display: flex;
+}
+
+#navbar-button-container {
+  flex: 1 1 auto;
+  height: 40px;
+}
+
+#navbar-button-container button {
+  height: 40px;
+  margin-right: 5px;
+  width: 150px;
+  color: $secondary;
+  background-color: $primary;
+  cursor: pointer;
+  border: 1px solid $secondary;
+  transition: .25s ease-out;
+}
+
+#navbar-button-container button:hover {
+  color: $primary;
+  background-color: $secondary;
+  transition: .15s ease-in;
+}
+
+#navbar-username-container {
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  text-align: right;
+  line-height: 40px;
+  padding-right: 25px;
+  font-size: 30px;
+}

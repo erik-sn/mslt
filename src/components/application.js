@@ -1,5 +1,6 @@
 if (process.env.BROWSER) {
   require('../sass/style.scss');
+  require('../sass/main.scss');
 }
 
 import React, { Component } from 'react';
