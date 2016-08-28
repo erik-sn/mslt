@@ -14,14 +14,17 @@ export default class Admin extends Component {
     super(props);
     this.state = {
       activeEntry: {
-        id: -1,
+        id: 0,
+        owner: props.auth.id,
         token: '',
-        title: (JSON.parse(localStorage.getItem('mslt-title')) || ''),
-        description: (JSON.parse(localStorage.getItem('mslt-description')) || ''),
-        content: (JSON.parse(localStorage.getItem('mslt-content')) || ''),
-        tags: (JSON.parse(localStorage.getItem('mslt-tags')) || []),
+        title: '',
+        description: '',
+        content: '',
+        tags: [],
       },
       output: '',
+      token: props.auth && props.auth.access_token ? `?access_token=${props.auth.access_token}` : '',
+      tagString: '',  // separate to improve transfer from tag strings to tag objects in entry
     };
   }
 
@@ -32,23 +35,25 @@ export default class Admin extends Component {
   }
 
   postEntry() {
-    const form = this.state.activeEntry;
-    form.tags = form.tags.split(',').map(tag => tag.trim());
-    axios.post(`${API_URL}/entry/${this.state.token}`, form)
+    const { token, activeEntry } = this.state;
+    activeEntry.owner = this.props.auth.id;
+    axios.post(`${API_URL}/api/entry/${token}`, activeEntry)
     .then(() => this.setState({ status: 'Successfully posted entry to database' }))
+    .then(() => this.clearForm())
     .catch(() => this.setState({ error: 'There was an error posting entry to the database' }));
   }
 
   updateEntry() {
-    const form = this.state.activeEntry;
-    form.tags = form.tags.split(',').map(tag => tag.trim());
-    axios.put(`${API_URL}/entry/${this.state.token}`, form)
+    const { token, activeEntry } = this.state;
+    activeEntry.owner = this.props.auth.id; // update owner to current user
+    axios.put(`${API_URL}/api/entry/${token}`, activeEntry)
     .then(() => this.setState({ status: 'Successfully edited entry to database' }))
+    .then(() => this.clearForm())
     .catch(() => this.setState({ error: 'There was an error posting entry to the database' }));
   }
 
   deleteEntry(id) {
-    axios.delete(`${API_URL}/entry/${this.state.token}`, { id })
+    axios.delete(`${API_URL}/api/entry/${this.state.token}`, { id })
     .then(() => this.setState({ status: 'Successfully deleted entry from the database' }))
     .catch(() => this.setState({ error: 'There was an error deleting the entry from the database' }));
   }
@@ -60,21 +65,27 @@ export default class Admin extends Component {
     this.setState({ activeEntry });
   }
 
+  updateTags({ value }) {
+    localStorage.setItem('mslt-tags', JSON.stringify(value));
+    const activeEntry = this.state.activeEntry;
+    activeEntry.tags = value.split(', ').map(tag => tag.trim());
+    this.setState({ activeEntry });
+  }
+
   clearForm() {
     const activeEntry = {
-      id: -1,
+      id: 0,
+      owner: this.state.activeEntry.owner,
       title: '',
       description: '',
       content: '',
       tags: '',
     };
-    this.setState({ activeEntry });
-    this.props.resetActive();
+    this.setState({ activeEntry }, () => this.props.resetActive(activeEntry));
   }
 
   render() {
-    const { activeEntry } = this.props;
-    const { title, description, content, tags } = this.state.activeEntry;
+    const { id, title, description, content, tags } = this.state.activeEntry;
     return (
       <div id="admin-container" >
         <div id="input-container">
@@ -82,9 +93,9 @@ export default class Admin extends Component {
           <div><input value={description} onChange={e => this.updateField(e, 'description')} placeholder="Enter description here..." className="admin-input" type="text" /></div>
           <textarea id="input-content" value={content} onChange={e => this.updateField(e, 'content')} />
           <div>Tags:</div>
-          <div id="tag-container"><input className="admin-input" value={tags} onChange={e => this.updateField(e, 'tags')} /></div>
+          <div id="tag-container"><input className="admin-input" value={tags ? tags.join(', ') : ''} onChange={e => this.updateTags(e.target)} /></div>
           <div id="button-container">
-            {activeEntry.id ? <button onClick={() => this.updateEntry()}>Update</button>
+            {id ? <button onClick={() => this.updateEntry()}>Update</button>
                             : <button onClick={() => this.postEntry()}>Submit</button>}
             <button onClick={() => this.clearForm()}>Cancel</button>
           </div>

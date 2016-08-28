@@ -3,12 +3,18 @@ if (process.env.BROWSER) {
 }
 
 import React, { Component } from 'react';
+import axios from 'axios';
+
+import { API_URL } from './application';
 
 export default class Navbar extends Component {
 
   constructor(props) {
     super(props);
+    this.clientId = '72cf5f6567a4f2de102c';
+
     this.state = {
+
     };
   }
 
@@ -16,18 +22,24 @@ export default class Navbar extends Component {
    * Redirect the user to github to begin authentication procedure
    */
   login() {
-    const clientId = '72cf5f6567a4f2de102c';
-    window.open(`https://github.com/login/oauth/authorize?redirect_uri=http://localhost:3000&client_id=${clientId}`, '_self');
+    window.open(`https://github.com/login/oauth/authorize?redirect_uri=http://localhost:3000&client_id=${this.clientId}`, '_self');
+  }
+
+  logout() {
+    const { auth, logout } = this.props;
+    axios.post(`${API_URL}/api/logout/?client_id=${this.clientId}&access_token=${auth.access_token}`,
+    { client_id: this.clientId, access_token: auth.access_token });
+    logout();
   }
 
   render() {
-    const { logout, toggleAdmin, auth } = this.props;
+    const { toggleAdmin, auth } = this.props;
     return (
       <div id="navbar-container" >
         {auth && auth.isAdmin ? <button onClick={() => toggleAdmin()}>Admin</button> : ''}
         {auth ?
-          <button onClick={() => logout()}>Logout</button> :
-          <button onClick={() => this.login()}>Login</button>
+          <button onClick={() => this.logout()}>Logout</button> :
+          <button onClick={() => this.login()}>Login Through Github</button>
         }
         <div>{auth && auth.username ? auth.username : ''}</div>
       </div>

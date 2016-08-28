@@ -19,18 +19,19 @@ export default class Application extends Component {
       showAdmin: false,
       auth: undefined,
       entries: [],
-      tags: [],
       activeEntry: {},
       error: '',
     };
   }
 
   componentWillMount() {
-    axios.get(`${API_URL}/api/entry/`).then(response => this.setState({ entries: response.data }))
-    .catch(() => this.setState({ error: 'There was an error loading the entries from the database ' }));
-
-    axios.get(`${API_URL}/api/tag/`).then(response => this.setState({ tags: response.data }))
-    .catch(() => this.setState({ error: 'There was an error loading tags from the database ' }));
+    // retrieve entries from database and convert their tag objects into strings of names
+    axios.get(`${API_URL}/api/entry/`).then(response => this.setState({ 
+      entries: this.formatTags(response.data),
+    }))
+    .catch(() => this.setState({
+      error: 'There was an error loading the entries from the database ',
+    }));
 
     const url = window.location.href;
     const code = /code=([^&]+)/.exec(url);
@@ -45,25 +46,36 @@ export default class Application extends Component {
     }
   }
 
+  formatTags(entries) {
+    return entries.map(entry => {
+      entry.tags = entry.tags.map(tag => tag.name);
+      return entry;
+    });
+  }
+
   showEntry(title) {
-    const activeEntry = this.state.entries.find(entry => entry.title === title);
+    const { entries } = this.state;
+    const activeEntry = entries.find(entry => entry.title === title);
     if (activeEntry) {
       this.setState({ activeEntry });
     }
   }
 
   render() {
-    const { entries, tags, activeEntry, showAdmin, auth, error } = this.state;
+    const { entries, activeEntry, showAdmin, auth, error } = this.state;
+    if (!entries) {
+      return <h1>Loading...</h1>;
+    }
+
     const entryItems = entries.map((entry, index) => {
-      const tagList = entry.tags.map((id, i) => {
-        const tagLabels = tags.find(tag => tag.id === id);
-        return <div key={i} className="entry-item-tag">{tagLabels ? tagLabels.name : ''}</div>;
-      });
       return (
         <div key={index} className="entry-item" onClick={() => this.showEntry(entry.title)}>
           <h4 className="entry-item-title">{entry.title}</h4>
           <div className="entry-item-description">{entry.description}</div>
-          <div className="entry-item-tag-container">{tagList}</div>
+          <div className="entry-item-tag-container">{entry.tags.map((tag, i) => (
+            <div key={i} className="entry-item-tag">{tag}</div>
+          ))}
+          </div>
         </div>
       );
     });
@@ -81,7 +93,7 @@ export default class Application extends Component {
           </div>
           <div id="active-entry-container">
             {showAdmin ?
-              <Admin auth={auth} resetActive={() => this.setState({ activeEntry: {} })} activeEntry={activeEntry} /> :
+              <Admin auth={auth} resetActive={clearEntry => this.setState({ activeEntry: clearEntry })} activeEntry={activeEntry} /> :
               <Main activeEntry={activeEntry} />
             }
           </div>
