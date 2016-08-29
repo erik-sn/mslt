@@ -10,7 +10,8 @@ import Navbar from './navbar';
 import Admin from './admin';
 import Main from './main';
 
-export const API_URL = 'http://localhost:8000';
+// export const API_URL = 'http://localhost:8000';
+export const API_URL = 'https://kiresuah.me';
 
 export default class Application extends Component {
 
@@ -85,8 +86,9 @@ export default class Application extends Component {
       <div id="app-container">
         <Navbar
           auth={auth}
-          logout={() => this.setState({ auth: undefined })}
+          logout={() => this.setState({ showAdmin: false, auth: undefined })}
           toggleAdmin={() => this.setState({ showAdmin: !this.state.showAdmin })}
+          activeEntry={activeEntry}
         />
         <div id="main-container">
           <div id="entry-container">

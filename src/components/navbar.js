@@ -33,17 +33,18 @@ export default class Navbar extends Component {
   }
 
   render() {
-    const { toggleAdmin, auth } = this.props;
+    const { toggleAdmin, auth, activeEntry } = this.props;
+    const title = activeEntry.title ? activeEntry.title : '';
     return (
       <div id="navbar-container" >
+        <div id="navbar-title">Make Stuff & Learn Things<span className="navbar-active-title">{title}</span></div>
         <div id="navbar-button-container">
           {auth && auth.isAdmin ? <button onClick={() => toggleAdmin()}>Admin</button> : ''}
           {auth ?
             <button onClick={() => this.logout()}>Logout</button> :
-            <button onClick={() => this.login()}>Login Through Github</button>
+            <button onClick={() => this.login()}>Login</button>
           }
         </div>
-        <div id="navbar-username-container" >{auth && auth.username ? auth.username : ''}</div>
       </div>
     );
   }

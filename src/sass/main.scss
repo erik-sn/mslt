@@ -11,14 +11,22 @@ body {
 #active-entry-container {
   flex: 8 1 400px;
   padding: 25px;
-  margin-left: 5px;
-  height: 85vh;
+  margin-left: 20%;
+  margin-top: 25px;
+  height: 90vh;
+  width: 80%;
   overflow-y: auto;
 }
 
 #entry-container { 
-  flex: 1 1 150px;
+  top: 75px;
+  width: 20%;
+  min-width: 150px;
+  position: fixed;
   color: $primary;
+  height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .entry-item {
@@ -45,8 +53,9 @@ body {
   flex: 1 1 auto;
   margin: 1px;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   border-radius: 3px;
+  padding: 3px;
 }
 
 .entry-item-tag:hover {
