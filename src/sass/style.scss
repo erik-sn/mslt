@@ -1,6 +1,6 @@
 $primary: #333;
 $secondary: whitesmoke;
-$tertiary: red;
+$tertiary: #999;
 
 @mixin shadow($h: 0px, $v: 0px, $b: 3px, $s: 3px, $color: black) {
   -webkit-box-shadow: $h $v $b $s $color;

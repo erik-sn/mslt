@@ -1,3 +1,5 @@
+@import 'style';
+
 body {
     font-family: 'PT Sans', sans-serif;
     font-size: 16px;
@@ -5,6 +7,23 @@ body {
 
 ul {
     list-style: none;
+}
+
+pre {
+    @include shadow($b: 1px, $s: 1px, $color: $tertiary);
+    background-color: $tertiary;
+    padding: 20px;
+    padding-left: 40px;
+    margin: 0% 5%;
+    border-radius: 2px;
+}
+pre code {
+    font-size: 12px;
+}
+
+code {
+    padding: 5px;
+    font-size: 14px;
 }
 
 .img-container {
