@@ -28,6 +28,9 @@ export default class Application extends Component {
   }
 
   componentWillMount() {
+    if (this.props.params.title) {
+      this.fetchPost(this.props.params.title);
+    }
     // retrieve entries from database and convert their tag objects into strings of names
     axios.get(`${API_URL}/api/entry/`).then(response => this.setState({ 
       entries: this.formatTags(response.data),
@@ -51,10 +54,14 @@ export default class Application extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.params.title !== this.props.params.title) {
-      axios.get(`${API_URL}/api/entry/${newProps.params.title}/`)
-      .then(response => this.setState({ activeEntry: response.data[0] }))
-      .catch(() => this.setState({ error: 'There was an error retrieving the post from the database' }));
+      this.fetchPost(newProps.params.title);
     }
+  }
+
+  fetchPost(title) {
+    axios.get(`${API_URL}/api/entry/${title}/`)
+    .then(response => this.setState({ activeEntry: response.data[0] }))
+    .catch(() => this.setState({ error: 'There was an error retrieving the post from the database' }));
   }
 
   formatTags(entries) {

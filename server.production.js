@@ -20,14 +20,14 @@ import compression from 'compression';
 import http from 'http';
 
 const app = express(); // delcare application
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || 3010;
 
 app.use(compression()); // compress compatible files for quicker client load time
 app.use(logger('dev')); // log content
 
 // Set path to public assets
-app.use('/simon/resources', express.static('resources'));
-app.use('/simon/static', express.static('dist'));
+app.use('/resources', express.static('resources'));
+app.use('/static', express.static('dist'));
 
 app.use('*', (req, res) => {
   res.status(200).send(renderFullPage());
@@ -55,13 +55,12 @@ function renderFullPage() {
     <!doctype html>
     <html>
       <head>
-        <link rel="stylesheet" href="/simon/static/bundle.min.css">
-        <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="/static/bundle.min.css">
       </head>
       <body id="app-body">
         <div class="react-container"></div>
       </body>
-      <script src="/simon/static/bundle.min.js"></script>
+      <script src="/static/bundle.min.js"></script>
     </html>
   `;
 }
