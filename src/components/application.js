@@ -4,14 +4,15 @@ if (process.env.BROWSER) {
 }
 
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import axios from 'axios';
 
 import Navbar from './navbar';
 import Admin from './admin';
 import Main from './main';
 
-// export const API_URL = 'http://localhost:8000';
-export const API_URL = 'https://kiresuah.me';
+export const API_URL = 'http://localhost:8000';
+// export const API_URL = 'https://kiresuah.me';
 
 export default class Application extends Component {
 
@@ -48,6 +49,14 @@ export default class Application extends Component {
     }
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.params.title !== this.props.params.title) {
+      axios.get(`${API_URL}/api/entry/${newProps.params.title}/`)
+      .then(response => this.setState({ activeEntry: response.data[0] }))
+      .catch(() => this.setState({ error: 'There was an error retrieving the post from the database' }));
+    }
+  }
+
   formatTags(entries) {
     return entries.map(entry => {
       entry.tags = entry.tags.map(tag => tag.name);
@@ -56,11 +65,8 @@ export default class Application extends Component {
   }
 
   showEntry(title) {
-    const { entries } = this.state;
-    const activeEntry = entries.find(entry => entry.title === title);
-    if (activeEntry) {
-      this.setState({ activeEntry });
-    }
+    const cleanedTitle = title.toLowerCase().replace(/ /g, '_');
+    browserHistory.push(`/${cleanedTitle}`);
   }
 
   render() {
@@ -92,6 +98,7 @@ export default class Application extends Component {
         />
         <div id="main-container">
           <div id="entry-container">
+            <h2>Posts</h2>
             {entryItems}
           </div>
           <div id="active-entry-container">

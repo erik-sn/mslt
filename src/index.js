@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, browserHistory } from 'react-router';
 
-import Application from './components/application';
+import router from './routes';
 
-ReactDOM.render(<Application />, document.querySelector('.react-container'));
+ReactDOM.render(
+  <Router history={browserHistory}>{router}</Router>,
+  document.querySelector('.react-container')
+);

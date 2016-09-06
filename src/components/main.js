@@ -4,6 +4,7 @@ if (process.env.BROWSER) {
 
 import React, { Component } from 'react';
 import marked from 'marked';
+import * as _ from 'lodash';
 
 export default class Main extends Component {
 
@@ -13,8 +14,16 @@ export default class Main extends Component {
     };
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (_.isEqual(nextProps.activeEntry, this.props.activeEntry)) {
+      return false;
+    }
+    return true;
+  }
+
   render() {
     const { activeEntry } = this.props;
+    console.log(activeEntry.title);
     return (
       <div>
         {!activeEntry || !activeEntry.content ? '' :
