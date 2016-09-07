@@ -1,7 +1,3 @@
-if (process.env.BROWSER) {
-  require('../sass/display.scss');
-}
-
 import React, { Component } from 'react';
 import marked from 'marked';
 import * as _ from 'lodash';

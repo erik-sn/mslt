@@ -22,13 +22,13 @@ body {
   min-width: 150px;
   color: $tertiary;
   height: 100vh;
-  background: $primary
+  background: $primary;
 }
 
 #post-container {
   overflow-y: auto;
   overflow-x: hidden;
-  height: calc(100vh - 200px);
+  height: 50%;
 }
 
 .entry-item {

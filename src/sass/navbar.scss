@@ -27,20 +27,21 @@
 
 #navbar-button-container {
   padding-top: 10px;
+  display: flex;
   flex: 1 1 125px;
   flex-direction: column;
-  justify-content: flex-end;
+  align-items: center;
   justify-content: center;
-  text-align: right;
 
   .nav-button {
     flex: 1 1 auto;
-    height: 30px;
+    width: 100%;
     text-align: center;
     font-size: 1.15rem;
     color: $primary;
     cursor: pointer;
     transition: .25s ease-out;
+    padding: 5px 0px;
   }
 
   .nav-button:hover {

@@ -6,6 +6,7 @@ if (process.env.BROWSER) {
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import axios from 'axios';
+require('es6-promise').polyfill();
 
 import Navbar from './navbar';
 import Admin from './admin';
