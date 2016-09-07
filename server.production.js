@@ -26,7 +26,7 @@ app.use(compression()); // compress compatible files for quicker client load tim
 app.use(logger('dev')); // log content
 
 // Set path to public assets
-app.use('/resources', express.static('resources'));
+app.use('/resources', express.static('dist'));
 app.use('/static', express.static('dist'));
 
 app.use('*', (req, res) => {
@@ -55,12 +55,12 @@ function renderFullPage() {
     <!doctype html>
     <html>
       <head>
-        <link rel="stylesheet" href="/bundle.min.css">
+        <link rel="stylesheet" href="/resources/bundle.min.css">
       </head>
       <body id="app-body">
         <div class="react-container"></div>
       </body>
-      <script src="/bundle.min.js"></script>
+      <script src="/resources/bundle.min.js"></script>
     </html>
   `;
 }
