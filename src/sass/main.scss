@@ -9,44 +9,60 @@ body {
 }
 
 #active-entry-container {
+  color: $tertiary;
   flex: 8 1 400px;
-  padding: 25px;
-  margin-left: 20%;
-  margin-top: 25px;
-  height: 90vh;
-  width: 80%;
+  padding: 50px;
+  height: 100%;
   overflow-y: auto;
 }
 
-#entry-container { 
-  top: 75px;
+#entry-container {   
+  @include shadow($v: 2px, $h: 2px, $b: 25px, $s: 0px, $color: $tertiary);
   width: 20%;
   min-width: 150px;
-  position: fixed;
-  color: $primary;
-  height: 90vh;
+  color: $tertiary;
+  height: 100vh;
+  background: $primary
+}
+
+#post-container {
   overflow-y: auto;
   overflow-x: hidden;
+  height: calc(100vh - 200px);
 }
 
 .entry-item {
-  @include shadow($b: 3px, $s: 1px, $color: $primary); 
-  padding: 15px;
-  margin: 5px;
-  border: 1px solid $primary;
+  @include shadow($v: 1px, $h: 1px, $b: 3px, $s: 0px, $color: $tertiary);
+  background: white;
+  color: $tertiary;
+  margin: 15px;
   cursor: pointer;
   transition: 0.35s ease-out;
 }
 
 .entry-item:hover {
-  background-color: $primary;
-  color: $secondary;
-  transition: 0.15s ease-in;
+  background-color: $tertiary;
+  color: $primary;
+  transition: 0.15s ease-in-out;
+  opacity: 0.9;
+}
+
+.entry-item-title {
+  background: $tertiary;
+  color: $primary;
+  padding: 1px 5px;
+  opacity: 0.9;
+}
+
+.entry-item-description {
+  padding: 5px;
 }
 
 .entry-item-tag-container {
-  display: flex;
+  padding: 5px;
   margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .entry-item-tag {
@@ -59,7 +75,7 @@ body {
 }
 
 .entry-item-tag:hover {
-  background-color: $secondary;
-  color: $primary;
+  background-color: $primary;
+  color: $tertiary;
   transition: 0.15s ease-in;
 }

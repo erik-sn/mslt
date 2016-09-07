@@ -11,14 +11,14 @@ ul {
 
 pre {
     @include shadow($b: 1px, $s: 1px, $color: $tertiary);
-    background-color: $tertiary;
+    background-color: #999;
     padding: 20px;
     padding-left: 40px;
     margin: 0% 5%;
     border-radius: 2px;
 }
 pre code {
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 code {

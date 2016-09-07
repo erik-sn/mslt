@@ -1,6 +1,6 @@
-$primary: #333;
-$secondary: whitesmoke;
-$tertiary: #999;
+$primary: #F2F2F2;
+$secondary: #C3C3C3;
+$tertiary: #141414;
 
 @mixin shadow($h: 0px, $v: 0px, $b: 3px, $s: 3px, $color: black) {
   -webkit-box-shadow: $h $v $b $s $color;
@@ -10,4 +10,8 @@ $tertiary: #999;
 
 h1, h2, h3, h4 {
   text-align: center;
+}
+
+body {
+  background: white;
 }
