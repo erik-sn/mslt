@@ -23,12 +23,12 @@ body {
   color: $tertiary;
   height: 100vh;
   background: $primary;
+
 }
 
 #post-container {
   overflow-y: auto;
   overflow-x: hidden;
-  height: 50%;
 }
 
 .entry-item {

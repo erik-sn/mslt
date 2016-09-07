@@ -3,6 +3,7 @@
 #navbar-container {
   background: $tertiary;
   color: $primary;
+  min-height: 150px;
   display: flex;
   flex-wrap: wrap;
   padding-bottom: 15px;
@@ -26,16 +27,16 @@
 }
 
 #navbar-button-container {
-  padding-top: 10px;
   display: flex;
-  flex: 1 1 125px;
+  flex: 1 1 75px;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
 
   .nav-button {
     flex: 1 1 auto;
     width: 100%;
+    height: 30px;
+    line-height: 35px;
     text-align: center;
     font-size: 1.15rem;
     color: $primary;

@@ -34,7 +34,7 @@ export default class Application extends Component {
       this.fetchPost(this.props.params.title);
     }
     // retrieve entries from database and convert their tag objects into strings of names
-    axios.get(`${API_URL}/api/entry/`).then(response => this.setState({ 
+    axios.get(`${API_URL}/api/entry/`).then(response => this.setState({
       entries: this.formatTags(response.data),
     }))
     .catch(() => this.setState({
@@ -54,9 +54,27 @@ export default class Application extends Component {
     }
   }
 
+  componentDidMount() {
+    window.addEventListener('resize', () => this.checkWindowSize());
+    this.checkWindowSize();
+  }
+
   componentWillReceiveProps(newProps) {
     if (newProps.params.title !== this.props.params.title) {
       this.fetchPost(newProps.params.title);
+    }
+  }
+
+  checkWindowSize() {
+    const navbarContainer = document.querySelector('#navbar-container');
+    const entryContainer = document.querySelector('#entry-container');
+    const postContainer = document.querySelector('#post-container');
+    if (entryContainer.offsetWidth < 225) {
+      navbarContainer.style.height = '285px';
+      postContainer.style.height = `${window.innerHeight - 300}px`;
+    } else {
+      navbarContainer.style.height = '165px';
+      postContainer.style.height = `${window.innerHeight - 190}px`;
     }
   }
 
