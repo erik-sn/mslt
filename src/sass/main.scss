@@ -11,8 +11,8 @@ body {
 #active-entry-container {
   color: $tertiary;
   flex: 8 1 400px;
-  padding: 50px;
-  height: 100%;
+  padding: 15px 50px;
+  height: calc(100vh - 30px);
   overflow-y: auto;
 }
 

@@ -53,29 +53,10 @@ export default class Application extends Component {
     }
   }
 
-  componentDidMount() {
-    window.addEventListener('resize', () => this.adjustScreen());
-    this.adjustScreen();
-  }
-
   componentWillReceiveProps(newProps) {
     if (newProps.params.title !== this.props.params.title) {
       this.fetchPost(newProps.params.title);
     }
-  }
-
-  adjustScreen() {
-    // const imgContainer = document.getElementById('img-container');
-    // const activeContainer = document.getElementById('active-entry-container');
-    // if (imgContainer) {
-    //   if (window.innerWidth < 500) {
-    //     activeContainer.style.marginLeft = '0%';
-    //     // imgContainer.style.display = 'none';
-    //   } else {
-    //     activeContainer.style.marginLeft = '20%';
-    //     // imgContainer.style.display = 'block';
-    //   }
-    // }
   }
 
   fetchPost(title) {
@@ -149,7 +130,6 @@ export default class Application extends Component {
               activeEntry={activeEntry}
             />
             <div id="post-container">
-              <h2>Posts</h2>
               {entryItems}
             </div>
           </div>
