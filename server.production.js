@@ -20,7 +20,7 @@ import compression from 'compression';
 import http from 'http';
 
 const app = express(); // delcare application
-const PORT = process.env.PORT || 3010;
+const PORT = process.env.PORT || 2999;
 
 app.use(compression()); // compress compatible files for quicker client load time
 app.use(logger('dev')); // log content
@@ -55,12 +55,12 @@ function renderFullPage() {
     <!doctype html>
     <html>
       <head>
-        <link rel="stylesheet" href="/static/bundle.min.css">
+        <link rel="stylesheet" href="/bundle.min.css">
       </head>
       <body id="app-body">
         <div class="react-container"></div>
       </body>
-      <script src="/static/bundle.min.js"></script>
+      <script src="/bundle.min.js"></script>
     </html>
   `;
 }
