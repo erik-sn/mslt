@@ -4,19 +4,30 @@
   background: $tertiary;
   color: $primary;
   min-height: 150px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   padding-bottom: 15px;
 }
 
 #img-container {
-  flex: 1 1 150px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 150px;
+          flex: 1 1 150px;
   height: 150px;
   width: 150px;
   border-radius: 50%;
 
+  display: -webkit-box;
+
+  display: -ms-flexbox;
+
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 
   img {
     padding: 15px;
@@ -27,13 +38,24 @@
 }
 
 #navbar-button-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex: 1 1 75px;
-  flex-direction: column;
-  justify-content: center;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 75px;
+          flex: 1 1 75px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 
   .nav-button {
-    flex: 1 1 auto;
+    -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
     width: 100%;
     height: 30px;
     line-height: 35px;
@@ -41,6 +63,7 @@
     font-size: 1.15rem;
     color: $primary;
     cursor: pointer;
+    -webkit-transition: .25s ease-out;
     transition: .25s ease-out;
     padding: 5px 0px;
   }
@@ -48,6 +71,7 @@
   .nav-button:hover {
     color: $tertiary;
     background-color: $primary;
+    -webkit-transition: .15s ease-in;
     transition: .15s ease-in;
   }
 }

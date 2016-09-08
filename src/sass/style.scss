@@ -3,8 +3,6 @@ $secondary: #C3C3C3;
 $tertiary: #141414;
 
 @mixin shadow($h: 0px, $v: 0px, $b: 3px, $s: 3px, $color: black) {
-  -webkit-box-shadow: $h $v $b $s $color;
-  -moz-box-shadow:    $h $v $b $s $color;
   box-shadow:         $h $v $b $s $color;
 }
 
