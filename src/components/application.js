@@ -26,6 +26,7 @@ export default class Application extends Component {
       entries: [],
       activeEntry: {},
       error: '',
+      showMin: false,
     };
   }
 
@@ -33,6 +34,15 @@ export default class Application extends Component {
     if (this.props.params.title) {
       this.fetchPost(this.props.params.title);
     }
+    if (window.innerHeight <= 500) {
+      this.setState({ showMin: true });
+    }    
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', () => this.checkWindowSize());
+    this.checkWindowSize();
+
     // retrieve entries from database and convert their tag objects into strings of names
     axios.get(`${API_URL}/api/entry/`).then(response => this.setState({
       entries: this.formatTags(response.data),
@@ -54,11 +64,6 @@ export default class Application extends Component {
     }
   }
 
-  componentDidMount() {
-    window.addEventListener('resize', () => this.checkWindowSize());
-    this.checkWindowSize();
-  }
-
   componentWillReceiveProps(newProps) {
     if (newProps.params.title !== this.props.params.title) {
       this.fetchPost(newProps.params.title);
@@ -69,6 +74,14 @@ export default class Application extends Component {
     const navbarContainer = document.querySelector('#navbar-container');
     const entryContainer = document.querySelector('#entry-container');
     const postContainer = document.querySelector('#post-container');
+
+    // check to see if we should render minimum mode instead of full mode
+    if (window.innerWidth <= 500 && !this.state.showMin) {
+      this.setState({ showMin: true });
+    } else if (window.innerWidth > 500 && this.state.showMin) {
+      this.setState({ showMin: false });
+    }
+
     if (entryContainer.offsetWidth < 225) {
       navbarContainer.style.height = '285px';
       postContainer.style.height = `${window.innerHeight - 300}px`;
@@ -119,7 +132,7 @@ export default class Application extends Component {
   }
 
   render() {
-    const { entries, activeEntry, auth } = this.state;
+    const { entries, activeEntry, auth, showMin } = this.state;
     if (!entries) {
       return <h1>Loading...</h1>;
     }
@@ -137,11 +150,11 @@ export default class Application extends Component {
         </div>
       );
     });
-
+    console.log(showMin)
     return (
       <div id="app-container">
         <div id="main-container">
-          <div id="entry-container">
+          <div id="entry-container" style={{ display: showMin ? 'none' : 'block' }}>
             <Navbar
               auth={auth}
               logout={() => this.setState({ showAdmin: false, auth: undefined })}
