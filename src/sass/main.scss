@@ -12,6 +12,7 @@ body {
 
 #active-entry-container {
   color: $tertiary;
+  font-size: 1.25rem;
   -webkit-box-flex: 8;
       -ms-flex: 8 1 400px;
           flex: 8 1 400px;
@@ -56,6 +57,7 @@ body {
 .entry-item-title {
   background: $tertiary;
   color: $primary;
+  font-size: 1.2rem;
   padding: 1px 5px;
   opacity: 0.9;
 }
@@ -70,17 +72,15 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .entry-item-tag {
+  flex: 1 1 auto;
   -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
   margin: 1px;
   text-align: center;
-  font-size: 14px;
+  font-size: 0.9rem;
   border-radius: 3px;
   padding: 3px;
 }
