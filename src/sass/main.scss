@@ -4,6 +4,7 @@ body {
   margin: 0px;
 }
 
+
 #main-container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -12,13 +13,19 @@ body {
 
 #active-entry-container {
   color: $tertiary;
-  font-size: 1.25rem;
-  -webkit-box-flex: 8;
-      -ms-flex: 8 1 400px;
-          flex: 8 1 400px;
-  padding: 15px 50px;
-  height: calc(100vh - 30px);
+  font-size: 1rem;
+  flex: 8 1 400px;  
+  height: calc(100vh - 0px);
   overflow-y: auto;
+  justify-content: center;
+
+  #post-container {
+    padding: 15px 100px;
+    flex: 1 1 auto;
+    max-width: 800px;
+    padding-left: calc(50% - 390px);
+    padding-right: calc(50% - 390px);
+  }
 }
 
 #entry-container {   
@@ -28,12 +35,12 @@ body {
   color: $tertiary;
   height: 100vh;
   background: $primary;
-
 }
 
-#post-container {
+#post-list-container {
   overflow-y: auto;
   overflow-x: hidden;
+  height: calc(100vh - 315px);
 }
 
 .entry-item {
