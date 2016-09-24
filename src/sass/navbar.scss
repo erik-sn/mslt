@@ -1,31 +1,33 @@
 @import 'style';
-
 #navbar-container {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 150px;
   flex: 1 1 150px;
   background: $tertiary;
   color: $primary;
   min-height: 150px;
   max-height: 300px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   padding-bottom: 15px;
 }
 
 #img-container {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 150px;
   flex: 1 1 150px;
   height: 150px;
   width: 150px;
   border-radius: 50%;
-
   display: -webkit-box;
-
   display: -ms-flexbox;
-
   display: flex;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-
+  -ms-flex-pack: center;
+  justify-content: center;
   img {
     padding: 15px;
     height: 120px;
@@ -35,25 +37,31 @@
 }
 
 #navbar-button-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: calc(100% - 150px);
   min-width: 125px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
   flex: 1 1 auto;
-
   .nav-button {
     color: $primary;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     font-size: 1.5rem;
     text-align: center;
     cursor: pointer;
     line-height: 40px;
     padding: 5px 0px;
-
     -webkit-transition: .25s ease-out;
     transition: .25s ease-out;
   }
-
   .nav-button:hover {
     color: $tertiary;
     background-color: $primary;
