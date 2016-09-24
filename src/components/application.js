@@ -26,7 +26,6 @@ export default class Application extends Component {
       entries: [],
       activeEntry: {},
       error: '',
-      showMin: false,
     };
   }
 
@@ -70,27 +69,6 @@ export default class Application extends Component {
     }
   }
 
-  checkWindowSize() {
-    const navbarContainer = document.querySelector('#navbar-container');
-    const entryContainer = document.querySelector('#entry-container');
-    const postContainer = document.querySelector('#post-container');
-
-    // check to see if we should render minimum mode instead of full mode
-    if (window.innerWidth <= 500 && !this.state.showMin) {
-      this.setState({ showMin: true });
-    } else if (window.innerWidth > 500 && this.state.showMin) {
-      this.setState({ showMin: false });
-    }
-
-    if (entryContainer.offsetWidth < 225) {
-      navbarContainer.style.height = '285px';
-      postContainer.style.height = `${window.innerHeight - 300}px`;
-    } else {
-      navbarContainer.style.height = '165px';
-      postContainer.style.height = `${window.innerHeight - 190}px`;
-    }
-  }
-
   fetchPost(title) {
     this.setState({ loading: true });
     axios.get(`${API_URL}/api/entry/${title}/`)
@@ -99,6 +77,18 @@ export default class Application extends Component {
       error: 'There was an error retrieving the post from the database',
     }))
     .then(() => this.setState({ loading: false }));
+  }
+
+  checkWindowSize() {
+    const navbarContainer = document.querySelector('#navbar-container');
+    const entryContainer = document.querySelector('#entry-container');
+    const postContainer = document.querySelector('#post-list-container');
+
+    if (entryContainer.offsetWidth < 225) {
+      postContainer.style.height = `${window.innerHeight - 315}px`;
+    } else {
+      postContainer.style.height = `${window.innerHeight - 190}px`;
+    }
   }
 
   formatTags(entries) {
@@ -116,9 +106,9 @@ export default class Application extends Component {
   getScreen() {
     const { activeEntry, auth, error, loading, showAdmin } = this.state;
     if (error) {
-      return <div><h2>Error</h2><div>{error}</div></div>;
+      return <div id="post-container"><h2>Error</h2><div>{error}</div></div>;
     } else if (loading) {
-      return <div><h1>Loading!</h1></div>;
+      return <div id="post-container" ><h1>Loading!</h1></div>;
     } else if (showAdmin) {
       return (
         <Admin
@@ -132,10 +122,7 @@ export default class Application extends Component {
   }
 
   render() {
-    const { entries, activeEntry, auth, showMin } = this.state;
-    if (!entries) {
-      return <h1>Loading...</h1>;
-    }
+    const { entries, activeEntry, auth } = this.state;
 
     const entryItems = entries.map((entry, index) => {
       return (
@@ -150,19 +137,19 @@ export default class Application extends Component {
         </div>
       );
     });
-    console.log(showMin)
+
     return (
       <div id="app-container">
         <div id="main-container">
-          <div id="entry-container" style={{ display: showMin ? 'none' : 'block' }}>
+          <div id="entry-container">
             <Navbar
               auth={auth}
               logout={() => this.setState({ showAdmin: false, auth: undefined })}
               toggleAdmin={() => this.setState({ showAdmin: !this.state.showAdmin })}
               activeEntry={activeEntry}
             />
-            <div id="post-container">
-              {entryItems}
+            <div id="post-list-container">
+              {entries ? entryItems : <h1>Loading...</h1>}
             </div>
           </div>
           <div id="active-entry-container">
