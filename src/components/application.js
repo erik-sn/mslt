@@ -80,7 +80,6 @@ export default class Application extends Component {
   }
 
   checkWindowSize() {
-    const navbarContainer = document.querySelector('#navbar-container');
     const entryContainer = document.querySelector('#entry-container');
     const postContainer = document.querySelector('#post-list-container');
 

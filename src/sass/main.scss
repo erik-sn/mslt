@@ -32,7 +32,7 @@ body {
 }
 
 #entry-container {
-  @include shadow($v: 2px, $h: 2px, $b: 25px, $s: 0px, $color: $tertiary);
+  @include shadow($v: 0px, $h: 0px, $b: 1px, $s: 0px, $color: $tertiary);
   width: 20%;
   min-width: 150px;
   color: $tertiary;
@@ -47,10 +47,10 @@ body {
 }
 
 .entry-item {
-  @include shadow($v: 1px, $h: 1px, $b: 3px, $s: 0px, $color: $tertiary);
+  @include shadow($v: 0px, $h: 0px, $b: 2px, $s: 0px, $color: $tertiary);
   background: white;
   color: $tertiary;
-  margin: 15px;
+  margin: 10px;
   cursor: pointer;
   -webkit-transition: 0.35s ease-out;
   transition: 0.35s ease-out;
@@ -67,18 +67,22 @@ body {
 .entry-item-title {
   background: $tertiary;
   color: $primary;
-  font-size: 1.2rem;
-  padding: 1px 5px;
+  font-size: 1rem;
+  padding: 1px 2px;
   opacity: 0.9;
+
+  h4 {
+    margin: 10px 5px;
+  }
 }
 
 .entry-item-description {
-  padding: 5px;
+  padding: 2px;
 }
 
 .entry-item-tag-container {
-  padding: 5px;
-  margin-top: 10px;
+  padding: 1px;
+  margin-top: 5px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
