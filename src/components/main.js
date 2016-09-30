@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import marked from 'marked';
 import * as _ from 'lodash';
-import ConnectBar from './connect_bar';
 
 export default class Main extends Component {
 
@@ -25,7 +24,6 @@ export default class Main extends Component {
     }
     return (
       <div id="post-container">
-        <ConnectBar />
         <h2 className="entry-title">{activeEntry.title}</h2>
         <h4 className="entry-description">{activeEntry.description}</h4>
         <div id="content-container" dangerouslySetInnerHTML={{ __html: marked(activeEntry.content) }} />

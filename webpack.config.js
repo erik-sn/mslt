@@ -18,7 +18,6 @@ module.exports = {
     './src/index',
   ],
   output: {
-    // this output is virtual/in memory when using WebpackDevServer
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/dist/',
@@ -26,21 +25,6 @@ module.exports = {
   plugins: [
     // enable hot module replacement
     new webpack.HotModuleReplacementPlugin(),
-
-    /**
-   *  This plugin is necessary because we are using a SASS compiler through
-   *  webpack on the client side. Because our JS/ES6 code is also loaded through
-   *  node in this server file, we will get syntax errors if the node server
-   *  attemps to parse the css/scss files.
-   *
-   *  To bypass this, we set this process.env variable as true here and delete
-   *  it in server.production.js. Then we only import/require the css/scss files
-   *  in React components if this variable exists (and is true).
-   *
-   *  This is unique to Isomorphic applications, see here:
-   *      http://stackoverflow.com/a/30355080/4396787
-   *
-   */
     new webpack.DefinePlugin({
       'process.env': {
         BROWSER: JSON.stringify(true),
@@ -55,13 +39,6 @@ module.exports = {
       include: path.join(__dirname, 'src'),
     },
     {
-      /*
-       *  test matches all SASS files. Transpiler reads right to left: takes in sass
-       *  turns it into css, and then adds it as <style> tags to the html.
-       *
-       * This setup allows for hot reloading of CSS because the <style> tags are
-       * reloaded on each save.
-       */
       test: /\.scss$/,
       loaders: ['style', 'css', 'sass'],
     },
@@ -70,5 +47,11 @@ module.exports = {
       loader: 'file-loader?name=/img/[name].[ext]',
     },
     ],
+  },
+  resolve: {
+    alias: {
+      'react': path.join(__dirname, 'node_modules', 'react'),
+    },
+    extensions: ['', '.js'],
   },
 };

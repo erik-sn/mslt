@@ -5,6 +5,14 @@ if (process.env.BROWSER) {
 import React, { Component } from 'react';
 import axios from 'axios';
 import { browserHistory } from 'react-router';
+import AutoComplete from 'material-ui/AutoComplete';
+import { Tabs, Tab } from 'material-ui/Tabs';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 
 import { API_URL } from './application';
 
@@ -15,8 +23,10 @@ export default class Navbar extends Component {
     this.clientId = '72cf5f6567a4f2de102c';
 
     this.state = {
-
+      value: 'a',
+      dataSource: [],
     };
+    this.handleChange = this.handleChange.bind(this);
     this.home = this.home.bind(this);
     this.portfolio = this.portfolio.bind(this);
   }
@@ -43,21 +53,53 @@ export default class Navbar extends Component {
     window.location.href = 'https://kiresuah.me/portfolio';
   }
 
+  handleChange(value) {
+    this.setState({ value });
+  }
+
   render() {
-    const { toggleAdmin, auth, activeEntry } = this.props;
+
     return (
       <div id="navbar-container" >
-        <div id="img-container">
-          <img height="150" width="150" src="https://res.cloudinary.com/dvr87tqip/image/upload/v1461600642/me_coz7xt.png" />
+        <div className="main-tabs" >
+          <MuiThemeProvider>
+            <Tabs
+              value={this.state.value}
+              onChange={this.handleChange}
+            >
+              <Tab label="home" value="a" />
+              <Tab label="portfolio" value="b" />
+              <Tab label="about" value="c" />
+            </Tabs>
+          </MuiThemeProvider>
         </div>
-        <div id="navbar-button-container">
-          <div className="nav-button" onClick={this.home}>Home</div>
-          <div className="nav-button" onClick={this.portfolio}>Portfolio</div>
-          {auth && auth.isAdmin ? <div className="nav-button" onClick={() => toggleAdmin()}>Admin</div> : ''}
-          {auth ?
-            <div className="nav-button" onClick={() => this.logout()}>Logout</div> :
-            <div className="nav-button" onClick={() => this.login()}>Login</div>
-          }
+        <div className="secondary-tabs">
+          <div className="search-tab">
+            <MuiThemeProvider>
+              <AutoComplete
+                hintText="Search for posts..."
+                dataSource={this.state.dataSource}
+                onUpdateInput={this.handleUpdateInput}
+                fullWidth
+              />
+            </MuiThemeProvider>
+          </div>
+          <div className="menu-tab">
+            <MuiThemeProvider>
+              <IconMenu
+                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+                targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+              >
+                <MenuItem primaryText="Search" />
+                <MenuItem primaryText="Filter" />
+                <MenuItem primaryText="Settings" />
+                <MenuItem primaryText="Help" />
+                <MenuItem primaryText="Login" />
+                <MenuItem primaryText="Sign out" />
+              </IconMenu>
+            </MuiThemeProvider>
+          </div>
         </div>
       </div>
     );

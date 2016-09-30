@@ -11,9 +11,10 @@ require('es6-promise').polyfill();
 import Navbar from './navbar';
 import Admin from './admin';
 import Main from './main';
+import ConnectBar from './connect_bar';
 
 // export const API_URL = 'http://localhost:8000';
-export const API_URL = 'https://kiresuah.me';
+export const API_URL = 'https://devreduce.com';
 
 export default class Application extends Component {
 
@@ -33,14 +34,9 @@ export default class Application extends Component {
     if (this.props.params.title) {
       this.fetchPost(this.props.params.title);
     }
-    if (window.innerHeight <= 500) {
-      this.setState({ showMin: true });
-    }    
   }
 
   componentDidMount() {
-    window.addEventListener('resize', () => this.checkWindowSize());
-    this.checkWindowSize();
 
     // retrieve entries from database and convert their tag objects into strings of names
     axios.get(`${API_URL}/api/entry/`).then(response => this.setState({
@@ -77,24 +73,6 @@ export default class Application extends Component {
       error: 'There was an error retrieving the post from the database',
     }))
     .then(() => this.setState({ loading: false }));
-  }
-
-  checkWindowSize() {
-    const entryContainer = document.querySelector('#entry-container');
-    const postContainer = document.querySelector('#post-list-container');
-
-    if (entryContainer.offsetWidth < 225) {
-      postContainer.style.height = `${window.innerHeight - 315}px`;
-    } else {
-      postContainer.style.height = `${window.innerHeight - 190}px`;
-    }
-  }
-
-  formatTags(entries) {
-    return entries.map(entry => {
-      entry.tags = entry.tags.map(tag => tag.name);
-      return entry;
-    });
   }
 
   showEntry(title) {
@@ -139,19 +117,15 @@ export default class Application extends Component {
 
     return (
       <div id="app-container">
+        <ConnectBar />
         <div id="main-container">
-          <div id="entry-container">
-            <Navbar
-              auth={auth}
-              logout={() => this.setState({ showAdmin: false, auth: undefined })}
-              toggleAdmin={() => this.setState({ showAdmin: !this.state.showAdmin })}
-              activeEntry={activeEntry}
-            />
-            <div id="post-list-container">
-              {entries ? entryItems : <h1>Loading...</h1>}
-            </div>
-          </div>
-          <div id="active-entry-container">
+          <Navbar
+            auth={auth}
+            logout={() => this.setState({ showAdmin: false, auth: undefined })}
+            toggleAdmin={() => this.setState({ showAdmin: !this.state.showAdmin })}
+            activeEntry={activeEntry}
+          />
+          <div id="post-container">
             {this.getScreen()}
           </div>
         </div>

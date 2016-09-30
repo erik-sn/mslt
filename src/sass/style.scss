@@ -1,6 +1,7 @@
 $primary: #F2F2F2;
 $secondary: #C3C3C3;
 $tertiary: #141414;
+$main: rgb(0, 188, 212);
 
 @mixin shadow($h: 0px, $v: 0px, $b: 3px, $s: 3px, $color: black) {
   box-shadow:         $h $v $b $s $color;
@@ -42,22 +43,11 @@ code {
   overflow-x: auto;
 }
 
-@media (max-width: 800px) {
-
-  #entry-container {
-    display: none;
-  }
-
-  #post-container {
-    padding: 15px 25px !important;
-  }
-}
-
 #connect-container {
   display: flex;
   flex-direction: row;
   position: fixed;
-  top: 0px;
+  bottom: 20px;
   right: 40px;
 
   .connect-icon {
