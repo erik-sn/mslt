@@ -5,10 +5,35 @@ body {
 }
 
 #main-container {
-  padding: 50px 15%;
-
+  padding: 70px 15%;
+  
   @media (max-width: 900px) {
     padding: 0px 0px;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
   }
 
+}
+
+#post-container {
+  overflow-y: auto;
+  padding: 0px 25px;
+  bottom: 25px;
+  overflow-y: auto;
+
+  .entry-item {
+    overflow-y: hidden;
+    position : relative;
+    margin-bottom: 25px;
+    cursor: pointer;
+  }
+
+  .tag-container {
+    display: flex;
+
+    div {
+      margin: 5px 5px !important;
+    }
+
+  }
 }

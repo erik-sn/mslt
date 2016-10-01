@@ -1,17 +1,21 @@
 #admin-container {
   display: flex;
+  flex-wrap: wrap;
 }
 
 #input-container {
+  padding: 10px;
   margin: 25px;
   flex: 1 1 auto;
+  min-width: 400px;
 }
 
 .admin-input {
+  width: 100%;
   padding: 5px;
   height: 20px;
-  width: 80%;
   margin-bottom: 5px;
+  border: none;
 }
 
 #input-content {
@@ -22,7 +26,7 @@
 
 #preview-container {
   padding: 25px;
-  max-width: 50%;
+  min-width: 400px;
   flex: 1 1 auto;
   height: 80vh;
   overflow-y: auto;

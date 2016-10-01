@@ -4,7 +4,10 @@ if (process.env.BROWSER) {
 
 import React, { Component } from 'react';
 import axios from 'axios';
-import marked from 'marked';
+import { cloneDeep } from 'lodash';
+import FlatButton from 'material-ui/FlatButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 
 import { API_URL } from './application';
 
@@ -31,7 +34,11 @@ export default class Admin extends Component {
   componentWillReceiveProps(nextProps) {
     const { activeEntry, auth } = nextProps;
     const token = auth && auth.access_token ? `?access_token=${auth.access_token}` : '';
-    this.setState({ activeEntry, token });
+    if (activeEntry) {
+      this.setState({ activeEntry, token });
+    } else {
+      this.setState({ token });
+    }
   }
 
   postEntry() {
@@ -60,7 +67,7 @@ export default class Admin extends Component {
 
   updateField(e, name) {
     localStorage.setItem(`mslt-${name}`, JSON.stringify(e.target.value));
-    const activeEntry = this.state.activeEntry;
+    const activeEntry = cloneDeep(this.state.activeEntry);
     activeEntry[name] = e.target.value;
     this.setState({ activeEntry });
   }
@@ -95,13 +102,13 @@ export default class Admin extends Component {
           <div>Tags:</div>
           <div id="tag-container"><input className="admin-input" value={tags ? tags.join(', ') : ''} onChange={e => this.updateTags(e.target)} /></div>
           <div id="button-container">
-            {id ? <button onClick={() => this.updateEntry()}>Update</button>
-                            : <button onClick={() => this.postEntry()}>Submit</button>}
-            <button onClick={() => this.clearForm()}>Cancel</button>
+            {id ? <MuiThemeProvider><FlatButton onClick={() => this.updateEntry()} label="Update" /></MuiThemeProvider>
+                            : <MuiThemeProvider><FlatButton onClick={() => this.postEntry()} label="Submit" /></MuiThemeProvider>}
+            <MuiThemeProvider><FlatButton onClick={() => this.clearForm()} label="Cancel" /></MuiThemeProvider>
           </div>
         </div>
         <div id="preview-container">
-          <div dangerouslySetInnerHTML={{ __html: marked(content) }} />
+          {this.props.render(this.state.activeEntry)}
         </div>
       </div>
     );

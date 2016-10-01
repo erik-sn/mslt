@@ -4,6 +4,7 @@ if (process.env.BROWSER) {
 
 import React, { Component } from 'react';
 import axios from 'axios';
+import { debounce } from 'lodash';
 import { browserHistory } from 'react-router';
 import AutoComplete from 'material-ui/AutoComplete';
 import { Tabs, Tab } from 'material-ui/Tabs';
@@ -27,8 +28,14 @@ export default class Navbar extends Component {
       dataSource: [],
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleUpdateInput = this.handleUpdateInput.bind(this);
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
     this.home = this.home.bind(this);
+    this.admin = this.admin.bind(this);
+    this.about = this.about.bind(this);
     this.portfolio = this.portfolio.bind(this);
+    this.get = debounce(axios.get, 500);
   }
 
   /**
@@ -43,6 +50,7 @@ export default class Navbar extends Component {
     axios.post(`${API_URL}/api/logout/?client_id=${this.clientId}&access_token=${auth.access_token}`,
     { client_id: this.clientId, access_token: auth.access_token });
     logout();
+    browserHistory.push('/about');
   }
 
   home() {
@@ -50,15 +58,29 @@ export default class Navbar extends Component {
   }
 
   portfolio() {
-    window.location.href = 'https://kiresuah.me/portfolio';
+    window.location.href = 'https://devreduce.com/portfolio';
+  }
+
+  about() {
+    browserHistory.push('/about');
+  }
+
+  admin() {
+    browserHistory.push('/admin');
   }
 
   handleChange(value) {
     this.setState({ value });
   }
 
-  render() {
+  handleUpdateInput(input) {
+    axios.get(`${API_URL}/api/entry?filter=${input}`).then(response => {
+      this.setState({ dataSource: response.data.map(entry => entry.title.substring(0, 20)) });
+    });
+  }
 
+  render() {
+    const { auth } = this.props;
     return (
       <div id="navbar-container" >
         <div className="main-tabs" >
@@ -67,9 +89,9 @@ export default class Navbar extends Component {
               value={this.state.value}
               onChange={this.handleChange}
             >
-              <Tab label="home" value="a" />
-              <Tab label="portfolio" value="b" />
-              <Tab label="about" value="c" />
+              <Tab label="home" value="a" onClick={this.home} />
+              <Tab label="portfolio" value="b" onClick={this.portfolio} />
+              <Tab label="about" value="c" onClick={this.about} />
             </Tabs>
           </MuiThemeProvider>
         </div>
@@ -77,7 +99,8 @@ export default class Navbar extends Component {
           <div className="search-tab">
             <MuiThemeProvider>
               <AutoComplete
-                hintText="Search for posts..."
+                hintText="Search..."
+                filter={AutoComplete.noFilter}
                 dataSource={this.state.dataSource}
                 onUpdateInput={this.handleUpdateInput}
                 fullWidth
@@ -95,8 +118,11 @@ export default class Navbar extends Component {
                 <MenuItem primaryText="Filter" />
                 <MenuItem primaryText="Settings" />
                 <MenuItem primaryText="Help" />
-                <MenuItem primaryText="Login" />
-                <MenuItem primaryText="Sign out" />
+                {auth && auth.isAdmin ? <MenuItem primaryText="Admin" onClick={this.admin} /> : ''}
+                {auth ?
+                  <MenuItem primaryText="Logout" onClick={this.logout} /> :
+                  <MenuItem primaryText="Login" onClick={this.login} />
+                }
               </IconMenu>
             </MuiThemeProvider>
           </div>
