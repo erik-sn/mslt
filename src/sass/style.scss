@@ -23,7 +23,7 @@ ul {
 
 pre {
   @include shadow($b: 1px, $s: 1px, $color: $tertiary);
-  background-color: #999;
+  background: whitesmoke;
   padding: 20px;
   padding-left: 40px;
   margin: 0% 5%;

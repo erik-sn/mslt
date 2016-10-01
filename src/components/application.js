@@ -160,6 +160,7 @@ export default class Application extends Component {
             logout={() => this.setState({ showAdmin: false, auth: undefined })}
             toggleAdmin={() => this.setState({ showAdmin: !this.state.showAdmin })}
             activeEntry={activeEntry}
+            setActiveEntry={(entry) => this.setState({ activeEntry: entry })}
           />
           {showAdmin ? <Admin auth={auth} activeEntry={activeEntry} render={this.renderEntry} /> :
             <div id="post-container">

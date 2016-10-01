@@ -26,9 +26,12 @@ export default class Navbar extends Component {
     this.state = {
       value: 'a',
       dataSource: [],
+      searchText: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleUpdateInput = this.handleUpdateInput.bind(this);
+    this.handleSearchSelect = this.handleSearchSelect.bind(this);
+    this.updateSearchMenu = debounce(this.updateSearchMenu, 300);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     this.home = this.home.bind(this);
@@ -73,14 +76,41 @@ export default class Navbar extends Component {
     this.setState({ value });
   }
 
-  handleUpdateInput(input) {
-    axios.get(`${API_URL}/api/entry?filter=${input}`).then(response => {
-      this.setState({ dataSource: response.data.map(entry => entry.title.substring(0, 20)) });
+  handleUpdateInput(searchText) {
+    if (searchText.trim() === '') {
+      this.setState({ searchText, dataSource: [] });
+    } else {
+      this.setState({ searchText }, this.updateSearchMenu(searchText));
+    }
+  }
+
+  updateSearchMenu(searchText) {
+    const menuStyle = { fontSize: '12px' };
+    axios.get(`${API_URL}/api/entry?filter=${searchText}`).then(response => {
+      const menus = response.data.map(entry => (
+        {
+          entry,
+          text: entry.title,
+          value: (
+            <MenuItem
+              primaryText={entry.title}
+              style={menuStyle}
+            />
+          ),
+        }
+      ));
+      this.setState({ dataSource: menus });
     });
+  }
+
+  handleSearchSelect(chosenRequest) {
+    this.props.setActiveEntry(chosenRequest.entry);
+    this.setState({ searchText: '' });
   }
 
   render() {
     const { auth } = this.props;
+    const menuStyle = { fontSize: '12px' };
     return (
       <div id="navbar-container" >
         <div className="main-tabs" >
@@ -99,10 +129,15 @@ export default class Navbar extends Component {
           <div className="search-tab">
             <MuiThemeProvider>
               <AutoComplete
+                searchText={this.state.searchText}
                 hintText="Search..."
                 filter={AutoComplete.noFilter}
                 dataSource={this.state.dataSource}
                 onUpdateInput={this.handleUpdateInput}
+                onNewRequest={this.handleSearchSelect}
+                menuStyle={menuStyle}
+                maxSearchResults={15}
+                labelStyle={menuStyle}
                 fullWidth
               />
             </MuiThemeProvider>
