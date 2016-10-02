@@ -35,6 +35,7 @@ export default class Admin extends Component {
     const { activeEntry, auth } = nextProps;
     const token = auth && auth.access_token ? `?access_token=${auth.access_token}` : '';
     if (activeEntry) {
+      console.log(activeEntry);
       this.setState({ activeEntry, token });
     } else {
       this.setState({ token });
@@ -52,6 +53,7 @@ export default class Admin extends Component {
 
   updateEntry() {
     const { token, activeEntry } = this.state;
+    console.log(activeEntry);
     activeEntry.owner = this.props.auth.id; // update owner to current user
     axios.put(`${API_URL}/api/entry/${token}`, activeEntry)
     .then(() => this.setState({ status: 'Successfully edited entry to database' }))
@@ -86,13 +88,14 @@ export default class Admin extends Component {
       title: '',
       description: '',
       content: '',
-      tags: '',
+      tags: [],
     };
     this.setState({ activeEntry }, () => this.props.resetActive(activeEntry));
   }
 
   render() {
     const { id, title, description, content, tags } = this.state.activeEntry;
+    console.log(tags.map(tag => tag.name));
     return (
       <div id="admin-container" >
         <div id="input-container">
@@ -100,7 +103,7 @@ export default class Admin extends Component {
           <div><input value={description} onChange={e => this.updateField(e, 'description')} placeholder="Enter description here..." className="admin-input" type="text" /></div>
           <textarea id="input-content" value={content} onChange={e => this.updateField(e, 'content')} />
           <div>Tags:</div>
-          <div id="tag-container"><input className="admin-input" value={tags ? tags.join(', ') : ''} onChange={e => this.updateTags(e.target)} /></div>
+          <div id="tag-container"><input className="admin-input" value={tags.length > 0 ? tags.map(tag => tag.name).join(', ') : ''} onChange={e => this.updateTags(e.target)} /></div>
           <div id="button-container">
             {id ? <MuiThemeProvider><FlatButton onClick={() => this.updateEntry()} label="Update" /></MuiThemeProvider>
                             : <MuiThemeProvider><FlatButton onClick={() => this.postEntry()} label="Submit" /></MuiThemeProvider>}

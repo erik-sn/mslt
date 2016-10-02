@@ -13,23 +13,10 @@ body {
   background: whitesmoke;
 }
 
-h1, h2, h3, h4 {
-  text-align: center;
-}
-
 ul {
   list-style: none;
 }
 
-pre {
-  @include shadow($b: 1px, $s: 1px, $color: $tertiary);
-  background: whitesmoke;
-  padding: 20px;
-  padding-left: 40px;
-  margin: 0% 5%;
-  border-radius: 2px;
-  overflow-x: auto;
-}
 
 pre code {
   font-size: 1rem; 

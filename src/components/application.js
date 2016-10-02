@@ -1,6 +1,7 @@
 if (process.env.BROWSER) {
   require('../sass/style.scss');
   require('../sass/main.scss');
+  require('../sass/entry.scss');
 }
 
 import React, { Component } from 'react';
@@ -9,6 +10,7 @@ import axios from 'axios';
 import marked from 'marked';
 import Chip from 'material-ui/Chip';
 import { Card, CardText, CardHeader } from 'material-ui/Card';
+import Divider from 'material-ui/Divider';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 require('es6-promise').polyfill();
 
@@ -33,6 +35,18 @@ export default class Application extends Component {
       error: '',
     };
     this.navigate = this.navigate.bind(this);
+
+    this.headerStyle = {
+      paddingRight: '50px',
+      padding: '20px 50px',
+      boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 2px 8px, rgba(0, 0, 0, 0.117647) 0px 2px 6px',
+      margin: '10px -10px 0px -10px',
+      background: 'white',
+    };
+    this.titleStyle = { fontWeight: 'bold', fontSize: '1.35rem' };
+    this.subTitleStyle = { fontSize: '1.15rem' };
+    this.textStyle = { padding: '10px 50px', fontSize: '1.1rem', color: '#333' };
+    this.divideStyle = { width: 'calc(100% - 100px)', marginLeft: '50px' };
   }
 
   componentWillMount() {    
@@ -109,6 +123,9 @@ export default class Application extends Component {
           <MuiThemeProvider>
             <Card>
               <CardHeader
+                style={this.headerStyle}
+                titleStyle={this.titleStyle}
+                subtitleStyle={this.subTitleStyle}
                 title={entry.title}
                 subtitle={entry.description}
               />
@@ -123,8 +140,6 @@ export default class Application extends Component {
   }
 
   renderEntry(entry) {
-    const headerStyle = { padding: '10px 50px' };
-    const textStyle = { padding: '10px 50px' };
 
     return (
       <div className="entry-display" >
@@ -134,15 +149,17 @@ export default class Application extends Component {
               {entry.tags.map((tag, i) => (<MuiThemeProvider><Chip key={i}>{tag.name}</Chip></MuiThemeProvider>))}
             </div>
             <CardHeader
-              style={headerStyle}
+              style={this.headerStyle}
+              titleStyle={this.titleStyle}
+              subtitleStyle={this.subTitleStyle}
               title={entry.title}
               subtitle={entry.description}
             />
             <CardText
-              style={textStyle}
+              className="entry-body"
+              style={this.textStyle}
               dangerouslySetInnerHTML={{ __html: marked(entry.content) }} 
             />
-            
           </Card>
         </MuiThemeProvider>
       </div>
@@ -151,10 +168,14 @@ export default class Application extends Component {
 
   render() {
     const { entries, activeEntry, auth, showAdmin } = this.state;
+    const adminStyle = { width: '100%', maxWidth: '100%' };
     return (
       <div id="app-container">
+        <div id="reduce-container">
+          <div className="reduce-item">experience.<b>reduce</b>((blog, post) => blog + post)), ‘’);</div>
+        </div>
         <ConnectBar />
-        <div id="main-container">
+        <div id="main-container" style={showAdmin ? adminStyle : {}} >
           <Navbar
             auth={auth}
             logout={() => this.setState({ showAdmin: false, auth: undefined })}
