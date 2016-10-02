@@ -35,8 +35,9 @@ export default class Admin extends Component {
     const { activeEntry, auth } = nextProps;
     const token = auth && auth.access_token ? `?access_token=${auth.access_token}` : '';
     if (activeEntry) {
-      console.log(activeEntry);
-      this.setState({ activeEntry, token });
+      const tagString = activeEntry.tags.map(tag => tag.name).join(', ');
+      activeEntry.tags = activeEntry.tags.map(tag => tag.name);
+      this.setState({ activeEntry, token, tagString });
     } else {
       this.setState({ token });
     }
@@ -53,8 +54,8 @@ export default class Admin extends Component {
 
   updateEntry() {
     const { token, activeEntry } = this.state;
-    console.log(activeEntry);
     activeEntry.owner = this.props.auth.id; // update owner to current user
+    console.log(activeEntry);
     axios.put(`${API_URL}/api/entry/${token}`, activeEntry)
     .then(() => this.setState({ status: 'Successfully edited entry to database' }))
     .then(() => this.clearForm())
@@ -68,17 +69,15 @@ export default class Admin extends Component {
   }
 
   updateField(e, name) {
-    localStorage.setItem(`mslt-${name}`, JSON.stringify(e.target.value));
     const activeEntry = cloneDeep(this.state.activeEntry);
     activeEntry[name] = e.target.value;
     this.setState({ activeEntry });
   }
 
   updateTags({ value }) {
-    localStorage.setItem('mslt-tags', JSON.stringify(value));
-    const activeEntry = this.state.activeEntry;
+    const activeEntry = cloneDeep(this.state.activeEntry);
     activeEntry.tags = value.split(', ').map(tag => tag.trim());
-    this.setState({ activeEntry });
+    this.setState({ activeEntry, tagString: value });
   }
 
   clearForm() {
@@ -95,7 +94,7 @@ export default class Admin extends Component {
 
   render() {
     const { id, title, description, content, tags } = this.state.activeEntry;
-    console.log(tags.map(tag => tag.name));
+    console.log(tags.join(', '))
     return (
       <div id="admin-container" >
         <div id="input-container">
@@ -103,7 +102,7 @@ export default class Admin extends Component {
           <div><input value={description} onChange={e => this.updateField(e, 'description')} placeholder="Enter description here..." className="admin-input" type="text" /></div>
           <textarea id="input-content" value={content} onChange={e => this.updateField(e, 'content')} />
           <div>Tags:</div>
-          <div id="tag-container"><input className="admin-input" value={tags.length > 0 ? tags.map(tag => tag.name).join(', ') : ''} onChange={e => this.updateTags(e.target)} /></div>
+          <div id="tag-container"><input className="admin-input" value={this.state.tagString} onChange={e => this.updateTags(e.target)} /></div>
           <div id="button-container">
             {id ? <MuiThemeProvider><FlatButton onClick={() => this.updateEntry()} label="Update" /></MuiThemeProvider>
                             : <MuiThemeProvider><FlatButton onClick={() => this.postEntry()} label="Submit" /></MuiThemeProvider>}

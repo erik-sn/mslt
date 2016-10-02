@@ -13,7 +13,16 @@
 .main-tabs {
   width: 70%;
   flex: 1 1 70%;
+  display: flex;
 
+  div {
+    flex: 1 1 auto;
+  }
+  
+
+  a {
+    flex: 1 1 auto;
+  }
   @media (max-width: 700px) {
     width: 100%;
   }

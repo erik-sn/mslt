@@ -3,9 +3,9 @@ if (process.env.BROWSER) {
 }
 
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import axios from 'axios';
 import { debounce } from 'lodash';
-import { browserHistory } from 'react-router';
 import AutoComplete from 'material-ui/AutoComplete';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import IconMenu from 'material-ui/IconMenu';
@@ -16,6 +16,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
 import { API_URL } from './application';
+import { readCookie } from '../../src/utility/functions';
 
 export default class Navbar extends Component {
 
@@ -34,18 +35,18 @@ export default class Navbar extends Component {
     this.updateSearchMenu = debounce(this.updateSearchMenu, 300);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
-    this.home = this.home.bind(this);
-    this.admin = this.admin.bind(this);
-    this.about = this.about.bind(this);
-    this.portfolio = this.portfolio.bind(this);
-    this.get = debounce(axios.get, 500);
   }
 
   /**
    * Redirect the user to github to begin authentication procedure
    */
   login() {
-    window.open(`https://github.com/login/oauth/authorize?redirect_uri=http://localhost:3000&client_id=${this.clientId}`, '_self');
+    const auth = JSON.parse(readCookie('devreduceauth'));
+    if (auth) {
+      this.props.setAuth(auth);
+    } else {
+      window.open(`https://github.com/login/oauth/authorize?redirect_uri=http://localhost:3000&client_id=${this.clientId}`, '_self');
+    }
   }
 
   logout() {
@@ -53,19 +54,7 @@ export default class Navbar extends Component {
     axios.post(`${API_URL}/api/logout/?client_id=${this.clientId}&access_token=${auth.access_token}`,
     { client_id: this.clientId, access_token: auth.access_token });
     logout();
-    browserHistory.push('/about');
-  }
-
-  home() {
-    browserHistory.push('/');
-  }
-
-  portfolio() {
-    window.location.href = 'https://devreduce.com/portfolio';
-  }
-
-  about() {
-    browserHistory.push('/about');
+    this.home();
   }
 
   admin() {
@@ -119,9 +108,9 @@ export default class Navbar extends Component {
               value={this.state.value}
               onChange={this.handleChange}
             >
-              <Tab label="home" value="a" onClick={this.home} />
-              <Tab label="portfolio" value="b" onClick={this.portfolio} />
-              <Tab label="about" value="c" onClick={this.about} />
+              <Tab label="home" value="home" onClick={() => browserHistory.push('/')} />
+              <Tab label="portfolio" value="portfolio" onClick={() => browserHistory.push('/portfolio')}/>
+              <Tab label="about" value="about" onClick={() => browserHistory.push('/about')} />
             </Tabs>
           </MuiThemeProvider>
         </div>
@@ -137,7 +126,6 @@ export default class Navbar extends Component {
                 onNewRequest={this.handleSearchSelect}
                 menuStyle={menuStyle}
                 maxSearchResults={15}
-                labelStyle={menuStyle}
                 fullWidth
               />
             </MuiThemeProvider>
@@ -149,14 +137,14 @@ export default class Navbar extends Component {
                 anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
                 targetOrigin={{ horizontal: 'right', vertical: 'top' }}
               >
-                <MenuItem primaryText="Search" />
-                <MenuItem primaryText="Filter" />
-                <MenuItem primaryText="Settings" />
-                <MenuItem primaryText="Help" />
-                {auth && auth.isAdmin ? <MenuItem primaryText="Admin" onClick={this.admin} /> : ''}
+                <MenuItem key={Math.random()} primaryText="Search" />
+                <MenuItem key={Math.random()} primaryText="Filter" />
+                <MenuItem key={Math.random()} primaryText="Settings" />
+                <MenuItem key={Math.random()} primaryText="Help" />
+                {auth && auth.isAdmin ? <MenuItem key={Math.random()} primaryText="Admin" onClick={() => browserHistory.push('/admin')} /> : ''}
                 {auth ?
-                  <MenuItem primaryText="Logout" onClick={this.logout} /> :
-                  <MenuItem primaryText="Login" onClick={this.login} />
+                  <MenuItem key={Math.random()} primaryText="Logout" onClick={this.logout} /> :
+                  <MenuItem key={Math.random()} primaryText="Login" onClick={this.login} />
                 }
               </IconMenu>
             </MuiThemeProvider>

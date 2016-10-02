@@ -10,14 +10,13 @@ import axios from 'axios';
 import marked from 'marked';
 import Chip from 'material-ui/Chip';
 import { Card, CardText, CardHeader } from 'material-ui/Card';
-import Divider from 'material-ui/Divider';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 require('es6-promise').polyfill();
 
 import Navbar from './navbar';
 import Admin from './admin';
-import Main from './main';
 import ConnectBar from './connect_bar';
+import { createCookie, readCookie, eraseCookie } from '../../src/utility/functions';
 
 // export const API_URL = 'http://localhost:8000';
 export const API_URL = 'https://devreduce.com';
@@ -26,6 +25,7 @@ export default class Application extends Component {
 
   constructor(props) {
     super(props);
+    this.clientId = '72cf5f6567a4f2de102c';
     this.state = {
       showAdmin: false,
       loading: false,
@@ -71,7 +71,8 @@ export default class Application extends Component {
       axios.get(`${API_URL}/api/login/${code[1]}/`)
       .then(response => {
         const value = window.location.href.substring(url.lastIndexOf('/') + 1).split('?')[0];
-        window.history.pushState('', '', '/' + value);
+        window.history.pushState('', '', `/${value}`);
+        createCookie('devreduceauth', JSON.stringify(response.data), 60);
         this.setState({ auth: response.data });
       })
       .catch(() => this.setState({ error: 'There was an error logging in through Github.' }));
@@ -91,8 +92,11 @@ export default class Application extends Component {
       this.setState({ showAdmin: true });
       return;
     } else if (params.title === 'admin') {
-      browserHistory.push('/');
-    }
+      const cookie = JSON.parse(readCookie('devreduceauth'));
+      if (cookie) {
+        this.setState({ auth: cookie, showAdmin: cookie.isAdmin });
+      }
+    }    
     this.setState({ showAdmin: false });
   }
 
@@ -146,7 +150,7 @@ export default class Application extends Component {
         <MuiThemeProvider>
           <Card>
             <div className="tag-container">
-              {entry.tags.map((tag, i) => (<MuiThemeProvider><Chip key={i}>{tag.name}</Chip></MuiThemeProvider>))}
+              {entry.tags.map((tag, i) => (<MuiThemeProvider key={i}><Chip>{tag.name}</Chip></MuiThemeProvider>))}
             </div>
             <CardHeader
               style={this.headerStyle}
@@ -177,6 +181,7 @@ export default class Application extends Component {
         <ConnectBar />
         <div id="main-container" style={showAdmin ? adminStyle : {}} >
           <Navbar
+            setAuth={(newAuth) => this.setState({ auth: newAuth })}
             auth={auth}
             logout={() => this.setState({ showAdmin: false, auth: undefined })}
             toggleAdmin={() => this.setState({ showAdmin: !this.state.showAdmin })}
