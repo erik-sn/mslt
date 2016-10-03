@@ -143,7 +143,9 @@ export default class Application extends Component {
                 subtitleStyle={this.subTitleStyle}
                 title={entry.title}
                 subtitle={entry.description}
-              />
+              >
+                <div className="date-container">{entry.modified.substring(0, 10)}</div>
+              </CardHeader>
             </Card>
           </MuiThemeProvider>
           <div className="tag-container">

@@ -2,8 +2,6 @@
   padding: 10px 25px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   
   .portfolio-header {
     display: flex;
@@ -52,5 +50,11 @@
         padding: 15px 25px;
       }
     }
+  }
+}
+
+.img-right {
+  .portfolio-body {
+    flex-wrap: wrap-reverse !important;
   }
 }
