@@ -16,7 +16,9 @@ require('es6-promise').polyfill();
 import Navbar from './navbar';
 import Admin from './admin';
 import ConnectBar from './connect_bar';
-import { createCookie, readCookie, eraseCookie } from '../../src/utility/functions';
+import Portfolio from './portfolio';
+import About from './about';
+import { createCookie, readCookie } from '../../src/utility/functions';
 
 // export const API_URL = 'http://localhost:8000';
 export const API_URL = 'https://devreduce.com';
@@ -34,7 +36,6 @@ export default class Application extends Component {
       activeEntry: undefined,
       error: '',
     };
-    this.navigate = this.navigate.bind(this);
 
     this.headerStyle = {
       paddingRight: '50px',
@@ -49,13 +50,6 @@ export default class Application extends Component {
     this.divideStyle = { width: 'calc(100% - 100px)', marginLeft: '50px' };
   }
 
-  componentWillMount() {    
-    this.checkIfAdmin(this.props.params);
-    if (this.props.params.title) {
-      this.fetchPost(this.props.params.title);
-    }
-  }
-
   componentDidMount() {
     // retrieve entries from database and convert their tag objects into strings of names
     axios.get(`${API_URL}/api/entry/`).then(response => this.setState({
@@ -63,7 +57,8 @@ export default class Application extends Component {
     }))
     .catch(() => this.setState({
       error: 'There was an error loading the entries from the database ',
-    }));
+    }))
+    .then(() => this.routeView(this.props.params.title));
 
     const url = window.location.href;
     const code = /code=([^&]+)/.exec(url);
@@ -72,47 +67,64 @@ export default class Application extends Component {
       .then(response => {
         const value = window.location.href.substring(url.lastIndexOf('/') + 1).split('?')[0];
         window.history.pushState('', '', `/${value}`);
-        createCookie('devreduceauth', JSON.stringify(response.data), 60);
+        createCookie('devreduceauth', JSON.stringify(response.data), 15);
         this.setState({ auth: response.data });
       })
-      .catch(() => this.setState({ error: 'There was an error logging in through Github.' }));
+      .catch(() => this.setState({ error: 'There was an error logging in through Github.' }))
     }
   }
 
-  componentWillReceiveProps(newProps) {
-    this.checkIfAdmin(newProps.params);
-    if (newProps.params.title !== this.props.params.title) {
-      this.fetchPost(newProps.params.title);
+  componentWillReceiveProps(nextProps) {
+    this.routeView(nextProps.params.title);
+  }
+
+  routeView(title) {
+    const { entries, activeEntry, auth } = this.state;
+    switch (title) {
+      case 'admin':
+        return <Admin showAdmin={this.checkIfAdmin()} auth={auth} activeEntry={activeEntry} render={this.renderEntry} />;
+      case 'portfolio':
+        return <Portfolio />;
+      case 'about':
+        return <About />;
+      case undefined:
+      case '':
+        return <div id="post-container">{this.renderEntryItems(entries)}</div>;
+      default:
+        return <div id="post-container">{this.renderEntry(activeEntry)}</div>;
     }
   }
 
-  checkIfAdmin(params) {
+  checkIfAdmin() {
     const { auth } = this.state;
-    if (auth && auth.isAdmin && params.title === 'admin') {
-      this.setState({ showAdmin: true });
-      return;
-    } else if (params.title === 'admin') {
-      const cookie = JSON.parse(readCookie('devreduceauth'));
-      if (cookie) {
-        this.setState({ auth: cookie, showAdmin: cookie.isAdmin });
-      }
-    }    
-    this.setState({ showAdmin: false });
-  }
-
-  fetchPost(title) {
-    this.setState({ loading: true });
-    axios.get(`${API_URL}/api/entry/${title}/`)
-    .then(response => this.setState({ activeEntry: response.data[0] }))
-    .catch(() => this.setState({
-      error: 'There was an error retrieving the post from the database',
-    }))
-    .then(() => this.setState({ loading: false }));
+    if (auth && auth.isAdmin) {
+      return true;
+    }
+    const cookie = JSON.parse(readCookie('devreduceauth'));
+    if (cookie) {
+      this.setState({ auth: cookie });
+      return cookie.isAdmin;
+    }
+    return false;
   }
 
   navigate(url) {
     const cleanedTitle = url.toLowerCase().replace(/ /g, '-');
-    browserHistory.push(`/${cleanedTitle}`);
+    this.fetchPost(cleanedTitle).then(() => {
+      browserHistory.push(`/${cleanedTitle}`);
+    });
+  }
+
+  fetchPost(title) {
+    this.setState({ loading: true });
+    return Promise.resolve(axios.get(`${API_URL}/api/entry/${title}/`)
+    .then(response => {
+      this.setState({ activeEntry: response.data[0] });
+    })
+    .catch(() => this.setState({
+      error: 'There was an error retrieving the post from the database',
+    }))
+    .then(() => this.setState({ loading: false })));
   }
 
   renderTags(entry) {
@@ -121,7 +133,6 @@ export default class Application extends Component {
 
   renderEntryItems(entries) {
     return entries.map((entry, index) => {
-      this.renderTags(entry);
       return (
         <div key={index} className="entry-item" onClick={this.navigate.bind(this, entry.title)} >
           <MuiThemeProvider>
@@ -136,7 +147,7 @@ export default class Application extends Component {
             </Card>
           </MuiThemeProvider>
           <div className="tag-container">
-              {entry.tags.map((tag, i) => (<MuiThemeProvider><Chip key={i}>{tag.name}</Chip></MuiThemeProvider>))}
+            {entry.tags.map((tag, i) => (<MuiThemeProvider key={i}><Chip >{tag.name}</Chip></MuiThemeProvider>))}
           </div>
         </div>
       );
@@ -144,7 +155,9 @@ export default class Application extends Component {
   }
 
   renderEntry(entry) {
-
+    if (!entry) {
+      return <div className="entry-display" />;
+    }
     return (
       <div className="entry-display" >
         <MuiThemeProvider>
@@ -171,7 +184,7 @@ export default class Application extends Component {
   }
 
   render() {
-    const { entries, activeEntry, auth, showAdmin } = this.state;
+    const { activeEntry, auth, showAdmin } = this.state;
     const adminStyle = { width: '100%', maxWidth: '100%' };
     return (
       <div id="app-container">
@@ -181,6 +194,7 @@ export default class Application extends Component {
         <ConnectBar />
         <div id="main-container" style={showAdmin ? adminStyle : {}} >
           <Navbar
+            params={this.props.params}
             setAuth={(newAuth) => this.setState({ auth: newAuth })}
             auth={auth}
             logout={() => this.setState({ showAdmin: false, auth: undefined })}
@@ -188,11 +202,7 @@ export default class Application extends Component {
             activeEntry={activeEntry}
             setActiveEntry={(entry) => this.setState({ activeEntry: entry })}
           />
-          {showAdmin ? <Admin auth={auth} activeEntry={activeEntry} render={this.renderEntry} /> :
-            <div id="post-container">
-              {activeEntry ? this.renderEntry(activeEntry) : this.renderEntryItems(entries)}
-            </div>
-          }
+          {this.routeView(this.props.params.title)}
         </div>
       </div>
     );

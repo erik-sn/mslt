@@ -18,7 +18,7 @@ export default class Admin extends Component {
     this.state = {
       activeEntry: {
         id: 0,
-        owner: props.auth.id,
+        owner: props.auth ? props.auth.id : -1,
         token: '',
         title: '',
         description: '',
@@ -34,6 +34,7 @@ export default class Admin extends Component {
   componentWillReceiveProps(nextProps) {
     const { activeEntry, auth } = nextProps;
     const token = auth && auth.access_token ? `?access_token=${auth.access_token}` : '';
+    const owner = auth ? auth.id : -1;
     if (activeEntry) {
       const tagString = activeEntry.tags.map(tag => tag.name).join(', ');
       activeEntry.tags = activeEntry.tags.map(tag => tag.name);
@@ -55,7 +56,6 @@ export default class Admin extends Component {
   updateEntry() {
     const { token, activeEntry } = this.state;
     activeEntry.owner = this.props.auth.id; // update owner to current user
-    console.log(activeEntry);
     axios.put(`${API_URL}/api/entry/${token}`, activeEntry)
     .then(() => this.setState({ status: 'Successfully edited entry to database' }))
     .then(() => this.clearForm())
@@ -94,7 +94,9 @@ export default class Admin extends Component {
 
   render() {
     const { id, title, description, content, tags } = this.state.activeEntry;
-    console.log(tags.join(', '))
+    if (!this.props.showAdmin) {
+      return <h3>You are not authorized to view this page</h3>;
+    }
     return (
       <div id="admin-container" >
         <div id="input-container">

@@ -16,7 +16,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
 import { API_URL } from './application';
-import { readCookie } from '../../src/utility/functions';
+import { eraseCookie, readCookie } from '../../src/utility/functions';
 
 export default class Navbar extends Component {
 
@@ -25,7 +25,7 @@ export default class Navbar extends Component {
     this.clientId = '72cf5f6567a4f2de102c';
 
     this.state = {
-      value: 'a',
+      nav: props.params ? props.params.title : 'home',
       dataSource: [],
       searchText: '',
     };
@@ -36,6 +36,16 @@ export default class Navbar extends Component {
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
   }
+
+  componentWillReceiveProps(nextProps) {
+    const tabs = ['home', 'portfolio', 'about'];
+    if (nextProps.params && tabs.indexOf(nextProps.params.title) === -1) {
+      this.setState({ nav: 'home' });
+    } else if (nextProps.params) {
+      this.setState({ nav: nextProps.params.title });
+    }
+  }
+  
 
   /**
    * Redirect the user to github to begin authentication procedure
@@ -52,9 +62,11 @@ export default class Navbar extends Component {
   logout() {
     const { auth, logout } = this.props;
     axios.post(`${API_URL}/api/logout/?client_id=${this.clientId}&access_token=${auth.access_token}`,
-    { client_id: this.clientId, access_token: auth.access_token });
-    logout();
-    this.home();
+    { client_id: this.clientId, access_token: auth.access_token }).then(() => {
+      browserHistory.push('/');
+      eraseCookie('devreduceauth');
+      logout();
+    });
   }
 
   admin() {
@@ -62,7 +74,7 @@ export default class Navbar extends Component {
   }
 
   handleChange(value) {
-    this.setState({ value });
+    this.setState({ nav: value });
   }
 
   handleUpdateInput(searchText) {
@@ -105,7 +117,7 @@ export default class Navbar extends Component {
         <div className="main-tabs" >
           <MuiThemeProvider>
             <Tabs
-              value={this.state.value}
+              value={this.state.nav}
               onChange={this.handleChange}
             >
               <Tab label="home" value="home" onClick={() => browserHistory.push('/')} />

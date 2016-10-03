@@ -62,3 +62,13 @@ code {
   }
 
 }
+
+  a {
+    text-decoration: none;
+    color: $main;
+    font-size: 1rem;
+  }
+
+  a:hover {    
+    text-decoration: underline;
+  }

@@ -1,0 +1,56 @@
+.portfolio-item {
+  padding: 10px 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  .portfolio-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .portfolio-header-name {
+      margin: 0px 15px;
+    }
+
+    .portfolio-code {
+      
+      img {
+        width: 25px !important;
+      }
+      
+    }
+    
+  }
+
+  .portfolio-body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .portfolio-img {
+      min-width: 250px;
+      padding: 15px;
+      align-content: center;
+
+      img {
+        max-height: 300px;
+        max-width: 300px;
+      }
+    }
+
+    .portfolio-text {
+      flex: 1 1 300px;
+
+      .portfolio-description {
+        padding: 15px;
+      }
+
+      .portfolio-technology {
+        padding: 15px 25px;
+      }
+    }
+  }
+}
