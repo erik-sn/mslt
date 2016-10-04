@@ -13,7 +13,6 @@ app.use(logger('dev')); // log content
 
 // Set path to public assets
 app.use('/resources', express.static('resources'));
-app.use('/static', express.static('src/img'));
 
 app.use('*', (req, res) => {
   res.status(200).send(renderFullPage());
@@ -43,13 +42,13 @@ function renderFullPage() {
       <head>
         <title>devreduce</title>
         <link rel="icon" href="/resources/img/icon1.png">
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-        <link rel="stylesheet" href="/resources/bundle.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" >
+        <link rel="stylesheet" href="/resources/bundle-v0.0.1.min.css" >
       </head>
       <body>
         <div class="react-container"></div>
       </body>
-      <script src="/resources/bundle.min.js"></script>
+      <script src="/resources/bundle-v0.0.1.min.js"></script>
     </html>
   `;
 }

@@ -17,8 +17,8 @@ module.exports = {
 	* resource, and our Isomorphic html points to it to retrieve these
 	* files.
 	*/
-    path: path.join(__dirname, 'dist'),
-    filename: 'bundle.min.js',
+    path: path.join(__dirname, 'resources'),
+    filename: 'bundle-v0.0.1.min.js',
     publicPath: '/static/',
   },
   plugins: [
@@ -39,7 +39,7 @@ module.exports = {
 	* one css file. This file is placed after the 'path' in the output
 	* configuration above - so for this project, '/dist/bundle.min.css'
 	*/
-    new ExtractTextPlugin('/bundle.min.css', {
+    new ExtractTextPlugin('/bundle-v0.0.1.min.css', {
       allChunks: true,
     }),
   ],
