@@ -186,7 +186,7 @@ export default class Application extends Component {
   }
 
   render() {
-    const { activeEntry, auth, showAdmin } = this.state;
+    const { activeEntry, auth } = this.state;
     const adminStyle = { width: '100%', maxWidth: '100%' };
     return (
       <div id="app-container">
@@ -194,7 +194,7 @@ export default class Application extends Component {
           <div className="reduce-item">experience.<b>reduce</b>((blog, post) => blog + post)), ‘’);</div>
         </div>
         <ConnectBar />
-        <div id="main-container" style={showAdmin ? adminStyle : {}} >
+        <div id="main-container" style={this.props.params.title === 'admin' ? adminStyle : {}} >
           <Navbar
             params={this.props.params}
             setAuth={(newAuth) => this.setState({ auth: newAuth })}
