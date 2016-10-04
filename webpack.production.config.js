@@ -9,24 +9,12 @@ module.exports = {
     './src/index',
   ],
   output: {
-	/**
-	* output defines where our bundle.min.js and bundle.min.css
-    * files will be put. In this configuration we are putting them
-    * in the '/dist' folder in our root directory. In our
-	* server.production.js we define this '/dist' folder as a static
-	* resource, and our Isomorphic html points to it to retrieve these
-	* files.
-	*/
     path: path.join(__dirname, 'resources'),
     filename: 'bundle-v0.0.1.min.js',
     publicPath: '/static/',
   },
   plugins: [
     new webpack.DefinePlugin({
-	  /**
-	  *   tell React we are in production mode, this will eliminate
-	  *   some development tools we don't need in production
-	  */
       'process.env': {
         'NODE_ENV': JSON.stringify('production'),
       },
@@ -34,15 +22,13 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false },
     }),
-	/**
-	* this will analyze all of the SASS files and bundle them into
-	* one css file. This file is placed after the 'path' in the output
-	* configuration above - so for this project, '/dist/bundle.min.css'
-	*/
     new ExtractTextPlugin('/bundle-v0.0.1.min.css', {
       allChunks: true,
     }),
   ],
+  postcss() {
+    return [require('autoprefixer')];
+  },
   module: {
     loaders: [{
       test: /\.js$/,
@@ -50,9 +36,8 @@ module.exports = {
       include: path.join(__dirname, 'src'),
     },
     {
-	  // send all SASS files into the ExtractTextPlugin
       test: /\.scss$/,
-      loader: ExtractTextPlugin.extract('css!sass'),
+      loader: ExtractTextPlugin.extract('css!sass!postcss'),
     },
     {
       test: /\.jpe?g$|\.gif$|\.png$/i,
