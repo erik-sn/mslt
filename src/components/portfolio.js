@@ -32,7 +32,7 @@ export default class Admin extends Component {
               </div>
               <div className="portfolio-body">
                 <div className="portfolio-img">
-                  <Card><img src="../../src/img/formcontrol.png" /></Card>
+                  <Card><img src="/resources/img/formcontrol.png" /></Card>
                 </div>
                 <div className="portfolio-text">
                   <div className="portfolio-description">
@@ -73,7 +73,7 @@ export default class Admin extends Component {
                   </div>
                 </div>
                 <div className="portfolio-img">
-                  <Card><img src="../../src/img/repljs.png" /></Card>
+                  <Card><img src="/resources/img/repljs.png" /></Card>
                 </div>
               </div>
             </Card>
@@ -92,7 +92,7 @@ export default class Admin extends Component {
               </div>
               <div className="portfolio-body">
                 <div className="portfolio-img">
-                  <Card><img src="../../src/img/markdown.png" /></Card>
+                  <Card><img src="/resources/img/markdown.png" /></Card>
                 </div>
                 <div className="portfolio-text">
                   <div className="portfolio-description">
@@ -131,7 +131,7 @@ export default class Admin extends Component {
                   </div>
                 </div>
                 <div className="portfolio-img">
-                  <Card><img src="../../src/img/simon.png" /></Card>
+                  <Card><img src="/resources/img/simon.png" /></Card>
                 </div>
               </div>
             </Card>
@@ -150,7 +150,7 @@ export default class Admin extends Component {
               </div>
               <div className="portfolio-body">
                 <div className="portfolio-img">
-                  <Card><img src="../../src/img/tictactoe.png" /></Card>
+                  <Card><img src="/resources/img/tictactoe.png" /></Card>
                 </div>
                 <div className="portfolio-text">
                   <div className="portfolio-description">
@@ -189,7 +189,7 @@ export default class Admin extends Component {
                   </div>
                 </div>
                 <div className="portfolio-img">
-                  <Card><img src="../../src/img/pomodoro.png" /></Card>
+                  <Card><img src="/resources/img/pomodoro.png" /></Card>
                 </div>
               </div>
             </Card>
@@ -208,7 +208,7 @@ export default class Admin extends Component {
               </div>
               <div className="portfolio-body">
                 <div className="portfolio-img">
-                  <Card><img src="../../src/img/calc.png" /></Card>
+                  <Card><img src="/resources/img/calc.png" /></Card>
                 </div>
                 <div className="portfolio-text">
                   <div className="portfolio-description">A simple implementation of a calculator
@@ -245,7 +245,7 @@ export default class Admin extends Component {
                   </div>
                 </div>
                 <div className="portfolio-img">
-                  <Card><img src="../../src/img/weather.png" /></Card>
+                  <Card><img src="/resources/img/weather.png" /></Card>
                 </div>
               </div>
             </Card>

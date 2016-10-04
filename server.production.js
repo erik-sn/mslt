@@ -1,17 +1,3 @@
-/**
- *  This line is necessary because we are using a SASS compiler through
- *  webpack on the client side. Because our JS/ES6 code is also loaded through
- *  node in this server file, we will get syntax errors if the node server
- *  attemps to parse the css/scss files.
- *
- *  To bypass this, we set this process.env variable as true when using webpack
- *  and delete it here. Then we only import/require the css/scss files in React
- *  components if this variable exists (and is true).
- *
- *  This is unique to Isomorphic applications, see here:
- *      http://stackoverflow.com/a/30355080/4396787
- *
- */
 delete process.env.BROWSER;
 
 import express from 'express';
@@ -26,8 +12,8 @@ app.use(compression()); // compress compatible files for quicker client load tim
 app.use(logger('dev')); // log content
 
 // Set path to public assets
-app.use('/resources', express.static('dist'));
-app.use('/static', express.static('dist'));
+app.use('/resources', express.static('resources'));
+app.use('/static', express.static('src/img'));
 
 app.use('*', (req, res) => {
   res.status(200).send(renderFullPage());
@@ -55,9 +41,12 @@ function renderFullPage() {
     <!doctype html>
     <html>
       <head>
+        <title>devreduce</title>
+        <link rel="icon" href="/resources/img/icon1.png">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" href="/resources/bundle.min.css">
       </head>
-      <body id="app-body">
+      <body>
         <div class="react-container"></div>
       </body>
       <script src="/resources/bundle.min.js"></script>

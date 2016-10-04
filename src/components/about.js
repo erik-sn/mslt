@@ -22,7 +22,7 @@ export default class Navbar extends Component {
           <Card>
             <div className="about-inner-container">
               <div className="about-img-container">
-                <Card><img src="../../src/img/profile.png" /></Card>
+                <Card><img src="/resources/img/profile.png" /></Card>
               </div>
               <div className="about-text-container">
                 My name is Erik, I am a mechanical/process engineer living in South Carolina. 
