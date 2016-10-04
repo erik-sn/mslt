@@ -13,6 +13,7 @@ app.use(logger('dev')); // log content
 
 // Set path to public assets
 app.use('/resources', express.static('resources'));
+app.use('/img', express.static('images'));
 
 app.use('*', (req, res) => {
   res.status(200).send(renderFullPage());
