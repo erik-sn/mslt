@@ -20,8 +20,8 @@ import Portfolio from './portfolio';
 import About from './about';
 import { createCookie, readCookie } from '../../src/utility/functions';
 
-export const API_URL = 'http://localhost:8000';
-// export const API_URL = 'https://devreduce.com';
+// export const API_URL = 'http://localhost:8000';
+export const API_URL = 'https://devreduce.com';
 
 export default class Application extends Component {
 
