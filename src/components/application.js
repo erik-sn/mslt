@@ -20,8 +20,8 @@ import Portfolio from './portfolio';
 import About from './about';
 import { createCookie, readCookie } from '../../src/utility/functions';
 
-// export const API_URL = 'http://localhost:8000';
-export const API_URL = 'https://devreduce.com';
+export const API_URL = 'http://localhost:8000';
+// export const API_URL = 'https://devreduce.com';
 
 export default class Application extends Component {
 
@@ -51,15 +51,6 @@ export default class Application extends Component {
   }
 
   componentDidMount() {
-    // retrieve entries from database and convert their tag objects into strings of names
-    axios.get(`${API_URL}/api/entry/`).then(response => this.setState({
-      entries: response.data,
-    }))
-    .catch(() => this.setState({
-      error: 'There was an error loading the entries from the database ',
-    }))
-    .then(() => this.routeView(this.props.params.title));
-
     const url = window.location.href;
     const code = /code=([^&]+)/.exec(url);
     if (code) {
@@ -68,9 +59,11 @@ export default class Application extends Component {
         const value = window.location.href.substring(url.lastIndexOf('/') + 1).split('?')[0];
         window.history.pushState('', '', `/${value}`);
         createCookie('devreduceauth', JSON.stringify(response.data), 15);
-        this.setState({ auth: response.data });
+        this.setState({ auth: response.data }, () => this.fetchEntries());
       })
-      .catch(() => this.setState({ error: 'There was an error logging in through Github.' }))
+      .catch(() => this.setState({ error: 'There was an error logging in through Github.' }));
+    } else {
+      this.fetchEntries();
     }
   }
 
@@ -113,6 +106,18 @@ export default class Application extends Component {
     this.fetchPost(cleanedTitle).then(() => {
       browserHistory.push(`/${cleanedTitle}`);
     });
+  }
+
+  fetchEntries() {
+    // retrieve entries from database and convert their tag objects into strings of names
+    const token = this.state.auth ? `?access_token=${this.state.auth.access_token}` : '';
+    axios.get(`${API_URL}/api/entry/${token}`).then(response => this.setState({
+      entries: response.data,
+    }))
+    .catch(() => this.setState({
+      error: 'There was an error loading the entries from the database ',
+    }))
+    .then(() => this.routeView(this.props.params.title));
   }
 
   fetchPost(title) {
@@ -177,7 +182,7 @@ export default class Application extends Component {
             <CardText
               className="entry-body"
               style={this.textStyle}
-              dangerouslySetInnerHTML={{ __html: marked(entry.content) }} 
+              dangerouslySetInnerHTML={{ __html: marked(entry.content) }}
             />
           </Card>
         </MuiThemeProvider>
@@ -197,7 +202,7 @@ export default class Application extends Component {
         <div id="main-container" style={this.props.params.title === 'admin' ? adminStyle : {}} >
           <Navbar
             params={this.props.params}
-            setAuth={(newAuth) => this.setState({ auth: newAuth })}
+            setAuth={(newAuth) => this.setState({ auth: newAuth }, () => this.fetchEntries())}
             auth={auth}
             logout={() => this.setState({ showAdmin: false, auth: undefined })}
             toggleAdmin={() => this.setState({ showAdmin: !this.state.showAdmin })}

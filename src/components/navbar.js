@@ -87,7 +87,8 @@ export default class Navbar extends Component {
 
   updateSearchMenu(searchText) {
     const menuStyle = { fontSize: '12px' };
-    axios.get(`${API_URL}/api/entry?filter=${searchText}`).then(response => {
+    const token = this.props.auth ? `&access_token=${this.props.auth.access_token}` : '';
+    axios.get(`${API_URL}/api/entry?filter=${searchText}${token}`).then(response => {
       const menus = response.data.map(entry => (
         {
           entry,
