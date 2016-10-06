@@ -1,12 +1,9 @@
-if (process.env.BROWSER) {
-  require('../sass/admin.scss');
-}
-
 import React, { Component } from 'react';
 import axios from 'axios';
 import { cloneDeep } from 'lodash';
 import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import '../sass/admin.scss';
 
 
 import { API_URL } from './application';
