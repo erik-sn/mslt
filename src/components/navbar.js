@@ -13,10 +13,12 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 
 import { API_URL } from './application';
 import { eraseCookie, readCookie } from '../../src/utility/functions';
+import { theme } from '../../src/utility/constants';
 
 export default class Navbar extends Component {
 
@@ -116,7 +118,7 @@ export default class Navbar extends Component {
     return (
       <div id="navbar-container" >
         <div className="main-tabs" >
-          <MuiThemeProvider>
+          <MuiThemeProvider muiTheme={getMuiTheme(theme)} >
             <Tabs
               value={this.state.nav}
               onChange={this.handleChange}
