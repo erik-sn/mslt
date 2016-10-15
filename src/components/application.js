@@ -236,7 +236,7 @@ export default class Application extends Component {
             logout={() => this.setState({ showAdmin: false, auth: undefined })}
             toggleAdmin={() => this.setState({ showAdmin: !this.state.showAdmin })}
             activeEntry={activeEntry}
-            setActiveEntry={(entry) => this.setState({ activeEntry: entry })}
+            setActiveEntry={entry => this.setState({ activeEntry: entry })}
           />
           {this.routeView(this.props.params.title)}
         </div>

@@ -1,23 +1,36 @@
 @import 'style';
 
+
+.article-container {
+  padding: 10px 5px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .article-month-container {
-  flex: 1 1 auto;
-  margin: 15px;
+  flex: 1 1 400px;
+  height: 100%;
+  margin: 15px 15px !important;
+  overflow-x: hidden;
+  box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
 
-  .article-container {
-    padding: 10px 5px;
-    cursor: pointer;
+  @media (max-width: 500px) {
+    margin: 15px 0px;
   }
-
   .article-container:hover {
     background: $primary;
   }
 
   .article-title {
+    flex: 1 1 auto;
     color: black;
+    white-space: pre-wrap;
   }
 
   .article-date {
+    flex: 1 1 auto;
     color: #999;
   }
 }
