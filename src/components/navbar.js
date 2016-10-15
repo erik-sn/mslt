@@ -15,7 +15,6 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-
 import { API_URL } from './application';
 import { eraseCookie, readCookie } from '../../src/utility/functions';
 import { theme } from '../../src/utility/constants';
@@ -40,7 +39,7 @@ export default class Navbar extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const tabs = ['home', 'portfolio', 'about'];
+    const tabs = ['home', 'articles', 'portfolio', 'about'];
     if (nextProps.params && tabs.indexOf(nextProps.params.title) === -1) {
       this.setState({ nav: 'home' });
     } else if (nextProps.params) {
@@ -124,6 +123,7 @@ export default class Navbar extends Component {
               onChange={this.handleChange}
             >
               <Tab label="home" value="home" onClick={() => browserHistory.push('/')} />
+              <Tab label="articles" value="articles" onClick={() => browserHistory.push('/articles')} />
               <Tab label="portfolio" value="portfolio" onClick={() => browserHistory.push('/portfolio')}/>
               <Tab label="about" value="about" onClick={() => browserHistory.push('/about')} />
             </Tabs>
@@ -140,6 +140,7 @@ export default class Navbar extends Component {
                 onUpdateInput={this.handleUpdateInput}
                 onNewRequest={this.handleSearchSelect}
                 menuStyle={menuStyle}
+                underlineFocusStyle={{ borderColor: 'white' }}
                 maxSearchResults={15}
                 fullWidth
               />

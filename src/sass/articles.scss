@@ -1,0 +1,23 @@
+@import 'style';
+
+.article-month-container {
+  flex: 1 1 auto;
+  margin: 15px;
+
+  .article-container {
+    padding: 10px 5px;
+    cursor: pointer;
+  }
+
+  .article-container:hover {
+    background: $primary;
+  }
+
+  .article-title {
+    color: black;
+  }
+
+  .article-date {
+    color: #999;
+  }
+}

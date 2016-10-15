@@ -31,9 +31,6 @@ export default class Navbar extends Component {
                 I have experience with Javascript - <a href="https://facebook.github.io/react/">React.js</a> & <a href="https://nodejs.org/en/docs/">Node.js</a> ,
                 &nbsp;<a href="https://www.oracle.com/java/index.html">Java</a>,  
                  &nbsp;<a href="https://www.python.org/">Python</a> & <a href="https://www.djangoproject.com/">Django</a>, several different flavors of SQL, and am currently learning the JVM language <a href="https://www.scala-lang.org">Scala</a> as a hobby.
-                <p></p>
-                This site was originally set up as a sort of tagged, searchable journal to document different skills I have 
-                been learning. I decided to try and consolidate some of them into organized blog posts. If you have any feedback I always appreciate it.
               </div>
             </div>
           </Card>

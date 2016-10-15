@@ -8,22 +8,13 @@ body {
   justify-content: center;
 }
 
-#reduce-container {
+#background-container {
   z-index: -1;
   position: fixed;
-  left: 13%;
-  top: -25px;
-  padding: 25px;
-  font-size: 26px;
-  opacity: 0.35;
+  left: -25px;
+  top: -95px;
+  opacity: 0.075;
 
-  .reduce-item {
-    padding: 15px;
-  }
-  
-  @media (max-width: 900px) {
-    display: none;
-  }
 }
 
 #main-container {
@@ -40,11 +31,13 @@ body {
 
 }
 
-#post-container {
+#article-container {
   overflow-y: auto;
   padding: 0px 25px;
   bottom: 25px;
   overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
 
   .entry-item > div > div {
     cursor: pointer;

@@ -4,10 +4,13 @@ if (process.env.BROWSER) {
   require('../sass/entry.scss');
 }
 
+import '../sass/articles.scss';
+
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import axios from 'axios';
 import marked from 'marked';
+import moment from 'moment';
 import Chip from 'material-ui/Chip';
 import { Card, CardText, CardHeader } from 'material-ui/Card';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -18,6 +21,7 @@ import Admin from './admin';
 import ConnectBar from './connect_bar';
 import Portfolio from './portfolio';
 import About from './about';
+import Home from './home';
 import { createCookie, readCookie } from '../../src/utility/functions';
 
 // export const API_URL = 'http://localhost:8000';
@@ -80,11 +84,13 @@ export default class Application extends Component {
         return <Portfolio />;
       case 'about':
         return <About />;
+      case 'articles':
+        return <div id="article-container">{this.renderEntryItems(entries)}</div>;
       case undefined:
       case '':
-        return <div id="post-container">{this.renderEntryItems(entries)}</div>;
+        return <Home />;
       default:
-        return <div id="post-container">{this.renderEntry(activeEntry)}</div>;
+        return <div id="article-container">{this.renderEntry(activeEntry)}</div>;
     }
   }
 
@@ -138,28 +144,52 @@ export default class Application extends Component {
   }
 
   renderEntryItems(entries) {
-    return entries.map((entry, index) => {
-      return (
-        <div key={index} className="entry-item" onClick={this.navigate.bind(this, entry.title)} >
-          <MuiThemeProvider>
-            <Card>
-              <CardHeader
-                style={this.headerStyle}
-                titleStyle={this.titleStyle}
-                subtitleStyle={this.subTitleStyle}
-                title={entry.title}
-                subtitle={entry.description}
-              >
-                <div className="date-container" >{entry.modified.substring(0, 10)}</div>
-              </CardHeader>
-            </Card>
-          </MuiThemeProvider>
-          <div className="tag-container">
-            {entry.tags.map((tag, i) => (<MuiThemeProvider key={i}><Chip >{tag.name}</Chip></MuiThemeProvider>))}
+    const monthCards = [];
+    const monthlyEntries = this.sortArticlesByMonth(entries);
+    for (const month in monthlyEntries) {
+      if (monthlyEntries.hasOwnProperty(month)) {
+        monthCards.push(
+          <div className="article-month-container" key={Math.random()}>
+            <MuiThemeProvider>
+              <Card>
+                <CardHeader
+                  title={moment(monthlyEntries[month][0].created).format('MMMM YYYY')}
+                  titleStyle={this.titleStyle}
+                >
+                {monthlyEntries[month].map((article, i) => this.renderMonthlyArticle(article, i))}
+                </CardHeader>
+              </Card>
+            </MuiThemeProvider>
           </div>
-        </div>
-      );
-    });
+        );
+      }
+    }
+    return monthCards;
+  }
+
+  renderMonthlyArticle(article, index) {
+    return (
+      <div
+        key={index}
+        className="article-container"
+        onClick={this.navigate.bind(this, article.title)}
+      >
+        <div className="article-title">{article.title}</div>
+        <div className="article-date">{moment(article.created).format('MMMM D, YY')}</div>
+      </div>
+    );
+  }
+
+  sortArticlesByMonth(articles) {
+    return articles.reduce((sorted, article) => {
+      const month = article.created.substring(0, 7);
+      if (sorted.hasOwnProperty(month)) {
+        sorted[month].push(article);
+      } else {
+        sorted[month] = [article];
+      }
+      return sorted;
+    }, {});
   }
 
   renderEntry(entry) {
@@ -196,9 +226,7 @@ export default class Application extends Component {
     const adminStyle = { width: '100%', maxWidth: '100%' };
     return (
       <div id="app-container">
-        <div id="reduce-container">
-          <div className="reduce-item">experience.<b>reduce</b>((blog, post) => blog + post)), ‘’);</div>
-        </div>
+        <div id="background-container" ><img src="/resources/img/gearbox.png" /></div>
         <ConnectBar />
         <div id="main-container" style={this.props.params.title === 'admin' ? adminStyle : {}} >
           <Navbar

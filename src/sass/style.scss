@@ -1,12 +1,11 @@
 $primary: #F2F2F2;
 $secondary: #C3C3C3;
 $tertiary: #141414;
-$main: #03A9F4;
+$main: #263238;
 
 @mixin shadow($h: 0px, $v: 0px, $b: 3px, $s: 3px, $color: black) {
   box-shadow:         $h $v $b $s $color;
 }
-
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
