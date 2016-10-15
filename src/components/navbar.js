@@ -57,7 +57,7 @@ export default class Navbar extends Component {
     if (auth) {
       this.props.setAuth(auth);
     } else {
-      window.open(`https://github.com/login/oauth/authorize?redirect_uri=http://localhost:3000&client_id=${this.clientId}`, '_self');
+      window.open(`https://github.com/login/oauth/authorize?redirect_uri=https://devreduce.com&client_id=${this.clientId}`, '_self');
     }
   }
 
