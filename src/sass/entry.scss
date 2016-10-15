@@ -2,6 +2,17 @@
  
  
 .entry-body {
+
+  @media screen and (max-width: 675px) {
+    padding: 20px 10px !important;
+    font-size: 0.95rem !important;
+  }
+
+  @media screen and (max-width: 350px) {
+    padding: 10px 10px !important;
+    font-size: 0.85rem !important;
+  }
+
   h2 {
     font-size: 1.35rem;
     text-align: center;
@@ -16,21 +27,47 @@
   }
  
   hr {
+<<<<<<< HEAD
     margin: -1px 0px 0px 50px;
     height: 1px;
     border: none;
     width: calc(100% - 100px);
+=======
+    height: 1px; 
+    border: none; 
+    width: 90%; 
+>>>>>>> 78798463ad31a5970766101772229ca391b72f80
     background-color: rgb(224, 224, 224);
+  }  
+
+  code {
+    padding: 5px;
+    font-size: 0.9rem;
+    overflow-x: auto;
   }
+<<<<<<< HEAD
  
+=======
+>>>>>>> 78798463ad31a5970766101772229ca391b72f80
   
   pre {
     box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
     background: whitesmoke;
     padding: 20px;
+    font-size: 1rem;
     padding-left: 40px;
     margin: 15px 5%;
+<<<<<<< HEAD
     overflow-x: auto;
+=======
+    overflow-x: auto;  
+
+    @media screen and (max-width: 675px) {
+      margin: 15px 0%;
+      padding: 20px 5px;
+      font-size: 0.85rem;
+    }
+>>>>>>> 78798463ad31a5970766101772229ca391b72f80
   }
  
   .img-container {
@@ -40,13 +77,33 @@
     max-width: 100%;
     overflow-x: auto;
   }
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 78798463ad31a5970766101772229ca391b72f80
   .entry-disclaimer {
     box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
     margin: 15px 50px;
     padding: 10px 40px;
+<<<<<<< HEAD
     font-size: 0.85rem;
     background: beige;
     opacity: 0.85;
+=======
+    font-size: 0.9rem;
+    background: beige;
+    opacity: 0.85;
+
+    @media screen and (max-width: 675px) {
+      margin: 15px 0px;
+      padding: 20px 5px;
+      font-size: 0.85rem;
+    }
+  }
+
+  a {
+    font-size: 1.05rem;
+>>>>>>> 78798463ad31a5970766101772229ca391b72f80
   }
 }

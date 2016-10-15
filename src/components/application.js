@@ -122,7 +122,8 @@ export default class Application extends Component {
 
   fetchPost(title) {
     this.setState({ loading: true });
-    return Promise.resolve(axios.get(`${API_URL}/api/entry/${title}/`)
+    const token = this.state.auth ? `?access_token=${this.state.auth.access_token}` : '';
+    return Promise.resolve(axios.get(`${API_URL}/api/entry/${title}/${token}`)
     .then(response => {
       this.setState({ activeEntry: response.data[0] });
     })
@@ -149,7 +150,7 @@ export default class Application extends Component {
                 title={entry.title}
                 subtitle={entry.description}
               >
-                <div className="date-container">{entry.modified.substring(0, 10)}</div>
+                <div className="date-container" >{entry.modified.substring(0, 10)}</div>
               </CardHeader>
             </Card>
           </MuiThemeProvider>
