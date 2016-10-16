@@ -64,6 +64,7 @@ export default class Application extends Component {
       })
       .catch(() => this.setState({ error: 'There was an error logging in through Github.' }));
     } else {
+      this.fetchPost(this.props.params.title);
       this.fetchEntries();
     }
   }
