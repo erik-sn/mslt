@@ -1,38 +1,43 @@
 @import 'style';
 
 #navbar-container {
-  width: 100%;
+  max-width: 100%;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  flex-grow: 1;
   margin-bottom: 15px;
   box-shadow: rgba(0, 0, 0, 0.117647) 0px 2px 8px, rgba(0, 0, 0, 0.117647) 0px 2px 6px;
+
+  @media (max-width: 700px) {
+    margin-bottom: 0px;
+  }
+
+  .navbar-tab {
+    font-size: 1rem !important;
+
+    @media (max-width: 700px) {
+      margin-bottom: 15px;
+      font-size: 0.8rem !important;
+    }
+  }
 }
 
 .main-tabs {
-  width: 70%;
   flex: 1 1 70%;
   display: flex;
 
   div {
     flex: 1 1 auto;
   }
-  
 
   a {
     flex: 1 1 auto;
   }
-  @media (max-width: 700px) {
-    width: 100%;
-  }
+
 }
 
 .secondary-tabs {
-  width: 30%;
   display: flex;
   flex-wrap: none;
-  min-width: 150px;
   flex-grow: 1;
 
   @media (max-width: 700px) {

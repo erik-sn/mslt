@@ -1,11 +1,31 @@
 @import 'style';
  
- 
+.article-container {
+  
+  max-width: 100%;
+}
+.entry-display {
+  max-width: 100%;
+}
+
+.rendered-article-header {
+  
+  @media screen and (max-width: 675px) {
+    padding: 10px !important;
+  }
+  
+  div {
+    @media screen and (max-width: 675px) {
+      padding: 10px !important;
+    }
+  }
+}
 .entry-body {
+  font-size: 1.1rem !important;
 
   @media screen and (max-width: 675px) {
     padding: 20px 10px !important;
-    font-size: 0.95rem !important;
+    font-size: 1rem !important;
   }
 
   @media screen and (max-width: 350px) {

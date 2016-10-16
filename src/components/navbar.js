@@ -121,11 +121,12 @@ export default class Navbar extends Component {
             <Tabs
               value={this.state.nav}
               onChange={this.handleChange}
+              className="navbar-tab-container"
             >
-              <Tab label="home" value="home" onClick={() => browserHistory.push('/')} />
-              <Tab label="articles" value="articles" onClick={() => browserHistory.push('/articles')} />
-              <Tab label="portfolio" value="portfolio" onClick={() => browserHistory.push('/portfolio')}/>
-              <Tab label="about" value="about" onClick={() => browserHistory.push('/about')} />
+              <Tab className="navbar-tab" label="home" value="home" onClick={() => browserHistory.push('/')} />
+              <Tab className="navbar-tab" label="articles" value="articles" onClick={() => browserHistory.push('/articles')} />
+              <Tab className="navbar-tab" label="portfolio" value="portfolio" onClick={() => browserHistory.push('/portfolio')}/>
+              <Tab className="navbar-tab" label="about" value="about" onClick={() => browserHistory.push('/about')} />
             </Tabs>
           </MuiThemeProvider>
         </div>
