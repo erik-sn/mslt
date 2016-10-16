@@ -9,10 +9,23 @@
   justify-content: center;
 }
 
+
+
+#article-container {
+  overflow-y: auto;
+  padding: 0px 25px 25px 25px;
+  bottom: 25px;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
 .article-month-container {
   flex: 1 1 400px;
   height: 100%;
-  margin: 15px 15px !important;
+  max-width: 45% !important;
+  margin: 0px 15px !important;
   overflow-x: hidden;
   box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
 

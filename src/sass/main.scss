@@ -8,39 +8,16 @@ body {
   justify-content: center;
 }
 
-#background-container {
-  z-index: -1;
-  position: fixed;
-  left: -25px;
-  top: -95px;
-  opacity: 0.075;
-
-}
-
 #main-container {
   padding: 70px 5%;
   width: 100%;
   max-width: 1000px;
-
+  min-width: 300px;
   
   @media (max-width: 900px) {
     padding: 0px 0px;
     height: calc(100vh - 60px);
     overflow-y: auto;
-  }
-
-}
-
-#article-container {
-  overflow-y: auto;
-  padding: 0px 25px;
-  bottom: 25px;
-  overflow-y: auto;
-  display: flex;
-  flex-wrap: wrap;
-
-  .entry-item > div > div {
-    cursor: pointer;
   }
 
 }

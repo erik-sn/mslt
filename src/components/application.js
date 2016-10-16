@@ -224,7 +224,6 @@ export default class Application extends Component {
     const adminStyle = { width: '100%', maxWidth: '100%' };
     return (
       <div id="app-container">
-        <div id="background-container" ><img src="/resources/img/gearbox.png" /></div>
         <ConnectBar />
         <div id="main-container" style={this.props.params.title === 'admin' ? adminStyle : {}} >
           <Navbar

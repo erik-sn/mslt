@@ -6,26 +6,24 @@ $main: #263238;
 @mixin shadow($h: 0px, $v: 0px, $b: 3px, $s: 3px, $color: black) {
   box-shadow:         $h $v $b $s $color;
 }
+
+html { 
+  background: url(/resources/img/gearbox.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
-  background: whitesmoke;
 }
 
 ul {
   list-style: none;
 }
 
-
-.fadeout {
-    position: relative; 
-    bottom: 4em;
-    height: 4em;
-    background: -webkit-linear-gradient(
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 1) 100%
-    ); 
-} 
 
 #connect-container {
   z-index: 2;
